@@ -22,6 +22,7 @@ function App() {
                         <Route path="/password-reset" render={() => (<PasswordResetPage/>)}/>}
                         <Route path="/password-generation" render={() => (<PasswordGenerationPage/>)}/>
                         <Route path="/profile" render={() => (<ProfilePage/>)}/>
+                        <span>13232323</span>
                     </Switch>
                 </>
             </div>
