@@ -2,18 +2,22 @@ import {Dispatch} from "redux";
 import {authAPI} from "../m3-dal/auth-api";
 
 const initialState: InitialStateType = {
-    loading: false
+    loading: false,
+    response: null
 }
 
 export const passwordResetReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
         case "LOADING":
             return {...state, loading: action.loading}
+        case "SET-PASS-RESET-RESPONSE":
+            return {...state, response: action.response}
         default:
             return {...state}
     }
 }
 export const setLoadingAC = (loading: boolean) => ({type: 'LOADING', loading} as const)
+export const setResponseAC = (response: ResponseType) => ({type: 'SET-PASS-RESET-RESPONSE', response} as const)
 
 export const resetPasswordTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setLoadingAC(true))
@@ -26,15 +30,30 @@ export const resetPasswordTC = (email: string) => (dispatch: Dispatch<ActionsTyp
     </div>`
     }
     authAPI.forgot(data).then((res: any) => {
+        console.log(res.data.info)
         if (res.status === 200) {
-           dispatch( setLoadingAC(false))
-            alert("Mail was send!")
+            dispatch(setResponseAC(res.data))
+            dispatch(setLoadingAC(false))
+            alert(res.data.info)
         }
-    }).catch(reason => alert(reason))
+    }).catch(reason => {
+        alert(reason)
+        dispatch(setLoadingAC(false))
+    })
 }
 
 
-export type ActionCreatorActionType = ReturnType<typeof setLoadingAC>
+export type setLoadingACType = ReturnType<typeof setLoadingAC>
+export type setResponseACType = ReturnType<typeof setResponseAC>
 export type InitialStateType = any
 type ActionsType =
-    | ActionCreatorActionType
+    | setLoadingACType
+    | setResponseACType
+
+
+type ResponseType = {
+    info: string
+    success: boolean
+    answer: boolean
+    html: boolean
+}

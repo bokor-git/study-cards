@@ -1,24 +1,50 @@
 import {Dispatch} from "redux";
 import {authAPI, newPasswordDataType} from "../m3-dal/auth-api";
+import {setLoadingAC, setLoadingACType} from "./password-reset-reducer";
 
 
-const initialState: InitialStateType = null
-
+const initialState:InitialStateType =
+    {
+        loading: false,
+        response: null
+    }
 export const passwordGenerationReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
+        case "LOADING":
+            return {...state, loading: action.loading}
+        case "SET-PASS-GENERATION-RESPONSE":
+            return {...state, response: action.response}
         default:
             return {...state}
     }
 }
-export const setNewPasswordTC = (newPasswordData: newPasswordDataType) => (dispatch: Dispatch<ActionsType>) => {
+
+export const setPassGenerationResponseAC = (response: { info: string }) => ({
+    type: "SET-PASS-GENERATION-RESPONSE",
+    response
+} as const)
+
+
+export const setNewPasswordTC = (newPasswordData: newPasswordDataType, history:any) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setLoadingAC(true))
     authAPI.setNewPassword(newPasswordData).then((res: any) => {
         if (res.status === 200) {
-            alert("Password was change!")
+            dispatch(setPassGenerationResponseAC(res.data))
+            dispatch(setLoadingAC(false))
+            alert(res.data.info)
+            history.push('/login/')
         }
-    }).catch(reason => alert(reason))
+    }).catch(reason => {
+        alert(reason)
+        dispatch(setLoadingAC(false))
+    })
 }
-export const ActionCreator = () => ({type: ''} as const)
-export type ActionCreatorActionType = ReturnType<typeof ActionCreator>
-export type InitialStateType = any
+
+export type setPassGenerationResponseACType = ReturnType<typeof setPassGenerationResponseAC>
+export type InitialStateType =    {
+    loading: boolean
+    response: { info: string } | null
+}
 type ActionsType =
-    | ActionCreatorActionType
+    | setLoadingACType
+    | setPassGenerationResponseACType
