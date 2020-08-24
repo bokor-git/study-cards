@@ -8,7 +8,6 @@ import ProfilePage from "./pages/ProfilePage";
 import HeaderNavbar from "./header/HeaderNavbar";
 import LoginPage from "./pages/LoginPage";
 
-
 function App() {
     return (
         <HashRouter>
