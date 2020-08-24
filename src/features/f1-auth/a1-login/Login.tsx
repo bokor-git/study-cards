@@ -1,26 +1,34 @@
-import React from 'react'
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "./login-reducer";
+import {AppRootStateType} from "../../../main/m2-bll/store";
+import {useFormik} from "formik";
+import {loginTC} from "../../../main/m2-bll/login-reducer";
+import {NavLink, Redirect} from "react-router-dom";
+import {
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    FormLabel,
+    Grid,
+    TextField
+} from "@material-ui/core";
+import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
+import React from "react";
 
-import { Redirect } from 'react-router-dom';
-import { AppRootStateType } from '../../m2-bll/store';
-import {ErrorSnackbar} from "../ErrorSnackbar/ErrorSnackbar";
-
-export const Login = () => {
+const Login = () => {
 
     const dispatch = useDispatch();
-    const isLoginIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoginIn);
+    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.loginPage.isLoginIn);
 
     const formik = useFormik({
-        validate:(values)=>{
-            if (!values.email){
+        validate: (values) => {
+            if (!values.email) {
                 return {
-                    email:'Please enter your email'
+                    email: 'Please enter your email'
                 }
             }
-            if (!values.password){
+            if (!values.password) {
                 return {
                     password: 'Please enter your password'
                 }
@@ -28,16 +36,16 @@ export const Login = () => {
         },
         initialValues: {
             email: '',
-            password:'',
+            password: '',
             rememberMe: false,
-            verified:false
+            verified: false
         },
         onSubmit: values => {
             dispatch(loginTC(values));
         },
     });
 
-    if(isLoginIn === true){
+    if (isLoginIn === true) {
         return <Redirect to={'/profile'}/>
     }
 
@@ -47,8 +55,7 @@ export const Login = () => {
                 <FormControl>
                     <FormLabel>
                         <p>
-                            To log in get registered <a href={'https://social-network.samuraijs.com/'}
-                                                        target={'_blank'}>here</a>
+                            To log in get registered <NavLink to={"/registration"}>here</NavLink>
                         </p>
                         <p>
                             or use common test account credentials:
@@ -75,7 +82,7 @@ export const Login = () => {
                         {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel
                             label={'Remember me'}
-                            control={<Checkbox />}
+                            control={<Checkbox/>}
                             {...formik.getFieldProps('rememberMe')}
                             checked={formik.values.rememberMe}
                         />
@@ -88,3 +95,4 @@ export const Login = () => {
         </Grid>
     </Grid>
 }
+export default Login;
