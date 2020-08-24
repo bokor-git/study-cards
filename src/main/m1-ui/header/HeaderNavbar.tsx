@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import "./headerNavbar.css"
 import {NavLink} from "react-router-dom";
 // import {useDispatch} from "react-redux";
-// import { logoutTC } from "../Login/login-reducer";
+// import { logoutTC } from "../LoginPage/login-reducer";
 //
  function HeaderNavbar() {
 //     const dispatch = useDispatch();

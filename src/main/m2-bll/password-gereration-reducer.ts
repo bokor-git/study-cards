@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authAPI, newPasswordDataType} from "../m3-dal/auth-api";
+import {passwordRecoveryApi, newPasswordDataType} from "../m3-dal/password-recovery-api";
 import {setLoadingAC, setLoadingACType} from "./password-reset-reducer";
 
 
@@ -27,7 +27,7 @@ export const setPassGenerationResponseAC = (response: { info: string }) => ({
 
 export const setNewPasswordTC = (newPasswordData: newPasswordDataType, history:any) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setLoadingAC(true))
-    authAPI.setNewPassword(newPasswordData).then((res: any) => {
+    passwordRecoveryApi.setNewPassword(newPasswordData).then((res: any) => {
         if (res.status === 200) {
             dispatch(setPassGenerationResponseAC(res.data))
             dispatch(setLoadingAC(false))

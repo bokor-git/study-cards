@@ -2,8 +2,8 @@ import React from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert, {AlertProps} from '@material-ui/lab/Alert'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from "../../m2-bll/store";
-import {setAppErrorAC} from "../../m2-bll/app-reducer";
+import {AppRootStateType} from "../../../m2-bll/store";
+import {setAppErrorAC} from "../../../m2-bll/app-reducer";
 
 
 

@@ -1,23 +1,22 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import {appReducer} from './app-reducer'
-import {loginReducer} from "./login-reducer";
 import {registrationReducer} from "./registration-reducer";
 import {passwordResetReducer} from "./password-reset-reducer";
 import {passwordGenerationReducer} from "./password-gereration-reducer";
 import {profileReducer} from "./profile-reducer";
-import {authReducer} from "../m1-ui/Login/login-reducer";
+import {authReducer} from "./login-reducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     app: appReducer,
-    loginPage: loginReducer,
+    loginPage: authReducer,
     registrationPage: registrationReducer,
     passwordResetPage: passwordResetReducer,
     passwordGenerationPage: passwordGenerationReducer,
     profilePage: profileReducer,
-    auth:authReducer
+    //auth:authReducer
 
 })
 // непосредственно создаём store

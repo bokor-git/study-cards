@@ -19,7 +19,6 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 
 export type RequestStatusType =  'idle' | 'loading' | 'succeeded' | 'failed'
 
-
 export const setAppErrorAC = (error: string | null) => ({ type: 'APP/SET-ERROR', error } as const)
 export const setAppStatusAC = (status:  RequestStatusType) => ({ type: 'APP/SET-STATUS', status } as const)
 export const setAppInitializedAC = (isInitialized:  boolean) => ({ type: 'APP/SET-INITIALIZED', isInitialized } as const)

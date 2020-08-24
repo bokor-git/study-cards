@@ -1,5 +1,3 @@
-
-
 import {Dispatch} from 'redux'
 import {setAppErrorAC, SetAppErrorActionType, SetAppStatusActionType, setAppStatusAC} from '../../m2-bll/app-reducer'
 

@@ -4,7 +4,7 @@ import {AppRootStateType} from "../../m2-bll/store";
 
 
 function ProfilePage() {
-    const {name} = useSelector((state:AppRootStateType)=> state.auth.UserData)
+    const {name} = useSelector((state:AppRootStateType)=> state.loginPage.UserData)
     return (
         <div>
             <h1>Name:{name}</h1>

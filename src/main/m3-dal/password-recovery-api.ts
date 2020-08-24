@@ -6,7 +6,7 @@ const instance = axios.create({
 })
 
 // api
-export const authAPI = {
+export const passwordRecoveryApi = {
     forgot(data:dataType) {
         const promise = instance.post('/auth/forgot',data );
         return promise;

@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../m3-dal/auth-api";
+import {passwordRecoveryApi} from "../m3-dal/password-recovery-api";
 
 const initialState: InitialStateType = {
     loading: false,
@@ -29,7 +29,7 @@ export const resetPasswordTC = (email: string) => (dispatch: Dispatch<ActionsTyp
     <a href='http://localhost:3000/study-cards#/password-generation/$token$'>link</a>
     </div>`
     }
-    authAPI.forgot(data).then((res: any) => {
+    passwordRecoveryApi.forgot(data).then((res: any) => {
         console.log(res.data.info)
         if (res.status === 200) {
             dispatch(setResponseAC(res.data))
