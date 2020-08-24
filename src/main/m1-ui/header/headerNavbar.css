@@ -3,7 +3,17 @@
     color: #241c69;
 }
 
-
+.menu__link_logout{
+    font-size: 8px;
+    padding: 2rem 1.5rem;
+    font-weight: 700;
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.menu__link_logout span{
+    font-size: 12px;
+}
 .menu__list {
     display: flex;
     text-align: center;
