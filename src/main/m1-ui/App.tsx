@@ -16,8 +16,7 @@ function App() {
                 <HeaderNavbar/>
                 <>
                     <Switch>
-                        <Route exact path={"/"} render={() => (<LoginPage/>)}/>
-                        <Route path={"/login/"} render={() => (<LoginPage/>)}/>
+                        <Route path={"/login"} render={() => (<LoginPage/>)}/>
                         <Route path="/registration" render={() => (<RegistrationPage/>)}/>
                         <Route path="/password-reset" render={() => (<PasswordResetPage/>)}/>}
                         <Route path="/password-generation/:id" render={() => (<PasswordGenerationPage/>)}/>

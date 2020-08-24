@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState} from "react";
 import {Input} from "../../../main/m1-ui/common/Input/Input";
 import {Button} from "../../../main/m1-ui/common/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,7 +7,9 @@ import {useParams, Redirect, useHistory} from "react-router"
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 
+
 function GenerateNewPassword() {
+
     const {id} = useParams();
     const history = useHistory()
     let dispatch = useDispatch()

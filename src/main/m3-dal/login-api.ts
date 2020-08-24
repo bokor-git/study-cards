@@ -17,7 +17,8 @@ export const authAPI = {
     logout(){
         const promise = instance.delete('auth/me');
         return promise;
-    },authMe() {
+    },
+    authMe() {
         return instance.post('auth/me',{});
     }
 }
@@ -38,10 +39,5 @@ export type LoginParamsType = {
     verified: boolean; // подтвердил ли почту
     error?: string;
 }
-
-
-
-
-
 
 

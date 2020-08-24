@@ -18,17 +18,18 @@ import React from "react";
 
 const Login = () => {
 
+
     const dispatch = useDispatch();
-    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.loginPage.isLoginIn);
+    const isLoginIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoginIn);
 
     const formik = useFormik({
-        validate: (values) => {
-            if (!values.email) {
+        validate:(values)=>{
+            if (!values.email){
                 return {
-                    email: 'Please enter your email'
+                    email:'Please enter your email'
                 }
             }
-            if (!values.password) {
+            if (!values.password){
                 return {
                     password: 'Please enter your password'
                 }
@@ -36,16 +37,16 @@ const Login = () => {
         },
         initialValues: {
             email: '',
-            password: '',
+            password:'',
             rememberMe: false,
-            verified: false
+            verified:false
         },
         onSubmit: values => {
             dispatch(loginTC(values));
         },
     });
 
-    if (isLoginIn === true) {
+    if(isLoginIn === true){
         return <Redirect to={'/profile'}/>
     }
 
@@ -55,7 +56,8 @@ const Login = () => {
                 <FormControl>
                     <FormLabel>
                         <p>
-                            To log in get registered <NavLink to={"/registration"}>here</NavLink>
+                            To log in get registered <a href={'/registration'}
+                                                        target={'_blank'}>here</a>
                         </p>
                         <p>
                             or use common test account credentials:
@@ -82,16 +84,19 @@ const Login = () => {
                         {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel
                             label={'Remember me'}
-                            control={<Checkbox/>}
+                            control={<Checkbox />}
                             {...formik.getFieldProps('rememberMe')}
                             checked={formik.values.rememberMe}
                         />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
                         <ErrorSnackbar/>
+
                     </FormGroup>
                 </FormControl>
-            </form>
 
+
+            </form>
+            <NavLink to={"/password-reset"}>Forgot password?</NavLink>
         </Grid>
     </Grid>
 }

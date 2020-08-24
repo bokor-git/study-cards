@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import "./headerNavbar.css"
 import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import { logoutTC } from "../Login/login-reducer";
+import { logoutTC } from "../../m2-bll/login-reducer";
 import {AppRootStateType} from "../../m2-bll/store";
 
  function HeaderNavbar() {
@@ -12,14 +12,15 @@ import {AppRootStateType} from "../../m2-bll/store";
     },[] )
      const isLoginIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoginIn);
 
-     if(isLoginIn === false){
-         return <Redirect to={'/login'}/>
-     }
+     // if(isLoginIn === false){
+     //     return <Redirect exact to={'/login'}/>
+     // }
      return (
          <div className="nav-container">
              <nav className="menu">
                  <ul className="menu__list">
-                     {isLoginIn &&<li onClick={logoutHandler} className="menu__group"><nav className="menu__link">Log out</nav></li>}
+                     {isLoginIn &&<li  className="menu__group">
+                         <button onClick={logoutHandler} className="menu__link_logout">Log out</button></li>}
                      <li className="menu__group"><NavLink className="menu__link"
                                                           to="/registration">registration</NavLink></li>
                      <li className="menu__group"><NavLink className="menu__link" to="/password-reset">password

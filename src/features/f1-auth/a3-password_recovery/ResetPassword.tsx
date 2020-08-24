@@ -8,13 +8,15 @@ import {resetPasswordTC} from "../../../main/m2-bll/password-reset-reducer";
 
 
 function ResetPassword() {
+
     let dispatch = useDispatch()
     let loading = useSelector<AppRootStateType, boolean>(state => state.passwordResetPage.loading)
+
+
     let [email, setEmail] = useState<string>("")
 
     const resetPass = () => {dispatch(resetPasswordTC(email)); setEmail("")}
     const onInputChange = (value: string) => setEmail(value)
-
 
     return (loading ? <Preloader/> :
             <div>

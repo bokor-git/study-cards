@@ -30,7 +30,6 @@ export const resetPasswordTC = (email: string) => (dispatch: Dispatch<ActionsTyp
     </div>`
     }
     passwordRecoveryApi.forgot(data).then((res: any) => {
-        console.log(res.data.info)
         if (res.status === 200) {
             dispatch(setResponseAC(res.data))
             dispatch(setLoadingAC(false))
@@ -45,7 +44,10 @@ export const resetPasswordTC = (email: string) => (dispatch: Dispatch<ActionsTyp
 
 export type setLoadingACType = ReturnType<typeof setLoadingAC>
 export type setResponseACType = ReturnType<typeof setResponseAC>
-export type InitialStateType = any
+export type InitialStateType = {
+    loading: boolean,
+    response: null|ResponseType
+}
 type ActionsType =
     | setLoadingACType
     | setResponseACType
