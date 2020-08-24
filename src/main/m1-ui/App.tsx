@@ -7,6 +7,8 @@ import PasswordResetPage from "./pages/PasswordResetPage";
 import PasswordGenerationPage from "./pages/PasswordGenerationPage";
 import ProfilePage from "./pages/ProfilePage";
 import HeaderNavbar from "./header/HeaderNavbar";
+import {Login} from "./Login/Login";
+
 
 
 function App() {
@@ -17,7 +19,7 @@ function App() {
                 <>
                     <Switch>
                         <Route exact path={"/"} render={() => (<LoginPage/>)}/>
-                        <Route path={"/login/"} render={() => (<LoginPage/>)}/>
+                        <Route path={"/login/"} render={() => (<Login/>)}/>
                         <Route path="/registration" render={() => (<RegistrationPage/>)}/>
                         <Route path="/password-reset" render={() => (<PasswordResetPage/>)}/>}
                         <Route path="/password-generation/:id" render={() => (<PasswordGenerationPage/>)}/>
