@@ -57,14 +57,14 @@ export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
     })
 }
 
-// export const logoutTC = () => (dispatch: ThunkDispatch) => {
-//     authAPI.logout()
-//         .then(res => {
-//             dispatch(setIsLoggedInAC(false))
-//         }).catch((error) => {
-//         handleServerNetworkError(error, dispatch);
-//     })
-// }
+export const logoutTC = () => (dispatch: ThunkDispatch) => {
+    authAPI.logout()
+        .then(res => {
+            dispatch(setIsLoggedInAC(false))
+        }).catch((error) => {
+        handleServerNetworkError(error, dispatch);
+    })
+}
 
 // types
 

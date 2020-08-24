@@ -17,6 +17,8 @@ export const authAPI = {
     logout(){
         const promise = instance.delete('auth/me');
         return promise;
+    },authMe() {
+        return instance.post('auth/me',{});
     }
 }
 

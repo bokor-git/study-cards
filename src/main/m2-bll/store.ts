@@ -7,6 +7,7 @@ import {passwordResetReducer} from "./password-reset-reducer";
 import {passwordGenerationReducer} from "./password-gereration-reducer";
 import {profileReducer} from "./profile-reducer";
 import {authReducer} from "../m1-ui/Login/login-reducer";
+import { ProfileReducer } from '../m1-ui/pages/profile-reducer';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     passwordResetPage: passwordResetReducer,
     passwordGenerationPage: passwordGenerationReducer,
     profilePage: profileReducer,
-    auth:authReducer
+    auth:authReducer,
+    ProfileReducer:ProfileReducer
 
 })
 // непосредственно создаём store
