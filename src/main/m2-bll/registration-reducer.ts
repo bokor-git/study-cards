@@ -1,16 +1,58 @@
-const initialState: InitialStateType = null
+import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
+import {Dispatch} from "redux";
+import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
+import {registrationApi, RegistretionDataType} from "../m3-dal/register-api";
+
+const initialState: InitialStateType = {
+    isRegistered: false,
+}
 
 export const registrationReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
+
+        case 'SET-IS-REGISTATED':
+            return {...state, isRegistered: action.value}
+        case 'SET-IS-NOT-REGISTATED':
+            return {...state, isRegistered: action.value}
+
         default:
             return {...state}
     }
 }
 
-export const ActionCreator = () => ({type: ''} as const)
 
-export type ActionCreatorActionType = ReturnType<typeof ActionCreator>
+// thunks
+export const registrationTC = (data: RegistretionDataType) => (dispatch: ThunkDispatch) => {
+    registrationApi.setRegister(data)
+        .then(res => {
+            dispatch(setIsRegistratedAC(true))
+        }).catch((error) => {
+        handleServerNetworkError(error, dispatch);
+    })
+}
+
+
+// Action Creators
+export const setIsRegistratedAC = (value: boolean): setIsRegistratedActionType =>
+    ({type: 'SET-IS-REGISTATED', value} as const)
+export const setIsNoRegistratedAC = (value: boolean): setIsNoRegistratedActionType =>
+    ({type: 'SET-IS-NOT-REGISTATED', value} as const)
+
+
+// Types
+
 export type InitialStateType = any
-type ActionsType =
-    | ActionCreatorActionType
 
+type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
+
+
+type ActionsType = setIsRegistratedActionType | setIsNoRegistratedActionType
+
+export type setIsRegistratedActionType = {
+    type: string
+    value: boolean
+}
+export type setIsNoRegistratedActionType = {
+    type: string
+    value: boolean
+}

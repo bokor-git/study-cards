@@ -1,11 +1,11 @@
 import React from "react";
 
+import RegisterPage from "../../../features/f1-auth/a2-registration/RegistrationPage";
+
 
 function RegistrationPage() {
     return (
-        <div>
-            <h1>Registration Page</h1>
-        </div>
+        <RegisterPage/>
     );
 }
 
