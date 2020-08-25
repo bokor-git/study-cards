@@ -12,8 +12,6 @@ export const registrationReducer = (state = initialState, action: ActionsType) =
 
         case 'SET-IS-REGISTATED':
             return {...state, isRegistered: action.value}
-        case 'SET-IS-NOT-REGISTATED':
-            return {...state, isRegistered: action.value}
 
         default:
             return {...state}
@@ -35,8 +33,6 @@ export const registrationTC = (data: RegistretionDataType) => (dispatch: ThunkDi
 // Action Creators
 export const setIsRegistratedAC = (value: boolean): setIsRegistratedActionType =>
     ({type: 'SET-IS-REGISTATED', value} as const)
-export const setIsNoRegistratedAC = (value: boolean): setIsNoRegistratedActionType =>
-    ({type: 'SET-IS-NOT-REGISTATED', value} as const)
 
 
 // Types
@@ -46,13 +42,10 @@ export type InitialStateType = any
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
 
 
-type ActionsType = setIsRegistratedActionType | setIsNoRegistratedActionType
+type ActionsType = setIsRegistratedActionType
 
 export type setIsRegistratedActionType = {
     type: string
     value: boolean
 }
-export type setIsNoRegistratedActionType = {
-    type: string
-    value: boolean
-}
+

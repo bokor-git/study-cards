@@ -7,6 +7,7 @@ import {useFormik} from "formik";
 import {Button} from "../../../main/m1-ui/common/Button/Button";
 import {registrationTC} from "../../../main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
+import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 
 
 function RegisterPage() {
@@ -39,8 +40,11 @@ function RegisterPage() {
             // verification_password: '',
         },
         onSubmit: values => {
-            alert(JSON.stringify(values))
-            dispatch(registrationTC(values))
+            let data = {
+                email:values.email,
+                password:values.password
+            }
+            dispatch(registrationTC(data))
         },
     });
 
@@ -49,25 +53,34 @@ function RegisterPage() {
     }
 
     return (loading ? <Preloader/> :
-            <div>
-                <h1>Registration Page</h1>
+            <div className={style.registerPage}>
+                <div className={style.Container}></div>
+                <div className={style.title}><h1>Registration Page</h1></div>
                 <form onSubmit={formik.handleSubmit}>
-                    Email
+                    <div className={style.formgroup}>
                     <input
                         className={style.input}
+                        id="email"
                         name="email"
                         type="text"
+                        placeholder="Enter your Email"
                         onChange={formik.handleChange}
                         value={formik.values.email}/>
+                        <label htmlFor={"email"}>Email</label>
                     {formik.errors.email ? <div className={style.error}>{formik.errors.email}</div> : null}
-                    Password
+                    </div>
+                    <div className={style.formgroup}>
                     <input
                         className={style.input}
+                        id="password"
                         name="password"
                         type="password"
+                        placeholder="Enter your password"
                         onChange={formik.handleChange}
                         value={formik.values.password}/>
+                        <label htmlFor={"password"}>Password</label>
                     {formik.errors.password ? <div className={style.error}>{formik.errors.password}</div> : null}
+                    </div>
                     {/*Confirm the password*/}
                     {/*<input*/}
                     {/*    className={style.input}*/}
@@ -78,8 +91,8 @@ function RegisterPage() {
                     {/*{formik.errors.verification_password ?*/}
                     {/*    <div className={style.error}>{formik.errors.verification_password}</div> : null}*/}
 
-                    <Button onClick={() => {
-                    }} text={"Регистрация"}/>
+                    <div className={style.buttonRegister}><button>Регистрация</button></div>
+                    <ErrorSnackbar/>
                 </form>
             </div>
     )

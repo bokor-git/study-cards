@@ -1,8 +1,63 @@
-.input{
+.registerPage{
+    font: 14px Arial;
+    position: relative;
+}
+.title{
+    text-align: center;
+    margin-top: 200px;
     margin-bottom: 30px;
+}
+.formgroup {
+    position: relative;
+    padding-top: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.registerPage label{
+    position: absolute;
+    top: 0;
+    font-size: var(--font-size-small);
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.2s ease-out;
+}
+.registerPage input:placeholder-shown + label {
+    opacity: 0;
+    transform: translateY(1rem);
 }
 .error{
     color:red;
     margin-bottom: 10px;
+}
 
+.registerPage button {
+    text-decoration: none;
+    outline: none;
+    display: inline-block;
+    width: 140px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 45px;
+    margin: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 3px;
+    font-weight: 600;
+    color: #524f4e;
+    background: #DCDDDF;
+    box-shadow: 0 8px 15px rgba(0,0,0,.1);
+    transition: .3s;
+}
+.registerPage button:hover {
+    background: #2EE59D;
+    box-shadow: 0 15px 20px rgba(46,229,157,.4);
+    color: white;
+    transform: translateY(-7px);
+}
+.buttonRegister{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
