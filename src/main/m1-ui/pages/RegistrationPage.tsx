@@ -1,5 +1,4 @@
 import React from "react";
-
 import RegisterPage from "../../../features/f1-auth/a2-registration/RegistrationPage";
 
 
