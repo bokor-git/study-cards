@@ -1,7 +1,6 @@
 import React from "react";
 import style from "./css.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {Preloader} from "./../../../main/m1-ui/common/Preloader/Preloader";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
 import {registrationTC} from "../../../main/m2-bll/registration-reducer";
@@ -91,7 +90,7 @@ function RegisterPage() {
                         {/*    value={formik.values.verification_password}/>*/}
                         {/*{formik.errors.verification_password ?*/}
                         {/*    <div className={style.error}>{formik.errors.verification_password}</div> : null}*/}
-
+{/*9*/}
                         <div className={style.buttonRegister}>
                             <button>Регистрация</button>
                         </div>
