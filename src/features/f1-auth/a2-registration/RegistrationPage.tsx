@@ -52,8 +52,8 @@ function RegisterPage() {
     }
 
     return (
-            <div className={style.registerPage}>
-                <div className={style.contentContainer}>
+        <div className={style.registerPage}>
+            <div className={style.contentContainer}>
                 <div className={style.Container}>
                     <div className={style.title}><h1>Registration Page</h1></div>
                     <form onSubmit={formik.handleSubmit}>
@@ -98,9 +98,9 @@ function RegisterPage() {
                         <ErrorSnackbar/>
                     </form>
                 </div>
-                </div>
-
             </div>
+
+        </div>
     )}
 
 export default RegisterPage;
