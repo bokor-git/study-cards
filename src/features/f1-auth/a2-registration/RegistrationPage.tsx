@@ -54,7 +54,6 @@ function RegisterPage() {
 
     return (loading ? <Preloader/> :
             <div className={style.registerPage}>
-                <div className={style.Container}></div>
                 <div className={style.title}><h1>Registration Page</h1></div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={style.formgroup}>
@@ -62,7 +61,6 @@ function RegisterPage() {
                         className={style.input}
                         id="email"
                         name="email"
-                        type="text"
                         placeholder="Enter your Email"
                         onChange={formik.handleChange}
                         value={formik.values.email}/>

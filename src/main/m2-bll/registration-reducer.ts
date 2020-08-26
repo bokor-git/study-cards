@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
 import {registrationApi, RegistretionDataType} from "../m3-dal/register-api";
 
+
 const initialState: InitialStateType = {
     isRegistered: false,
 }
