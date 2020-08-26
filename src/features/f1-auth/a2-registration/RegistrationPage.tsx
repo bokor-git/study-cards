@@ -7,7 +7,6 @@ import {useFormik} from "formik";
 import {registrationTC} from "../../../main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
-import DogLogo from "../../../main/m1-ui/common/Images/Registration.png"
 
 
 function RegisterPage() {
@@ -52,7 +51,7 @@ function RegisterPage() {
         return <Redirect to={'/login'}/>
     }
 
-    return (loading ? <Preloader/> :
+    return (
             <div className={style.registerPage}>
                 <div className={style.contentContainer}>
                 <div className={style.Container}>
@@ -102,7 +101,6 @@ function RegisterPage() {
                 </div>
 
             </div>
-    )
-}
+    )}
 
 export default RegisterPage;
