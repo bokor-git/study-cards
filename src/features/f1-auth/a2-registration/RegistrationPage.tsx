@@ -13,7 +13,6 @@ function RegisterPage() {
     const dispatch = useDispatch();
     const isRegistered = useSelector<AppRootStateType, boolean>(state => state.registrationPage.isRegistered);
 
-    let loading = useSelector<AppRootStateType, boolean>(state => state.passwordResetPage.loading)
     const formik = useFormik({
         validate: (values) => {
             if (!values.email) {
@@ -90,10 +89,7 @@ function RegisterPage() {
                         {/*    value={formik.values.verification_password}/>*/}
                         {/*{formik.errors.verification_password ?*/}
                         {/*    <div className={style.error}>{formik.errors.verification_password}</div> : null}*/}
-{/*9*/}
-                        <div className={style.buttonRegister}>
                             <button>Регистрация</button>
-                        </div>
                         <ErrorSnackbar/>
                     </form>
                 </div>

@@ -9,6 +9,11 @@
     overflow: hidden;
 
 }
+.registerPage form{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
 .contentContainer
 {
     margin-left: 5%;
@@ -19,6 +24,7 @@
 .Container{
     display: flex;
     flex-direction: column;
+    align-items: center;
     background-image: url("../../../main/m1-ui/common/Images/Registration.png");
     background-size: 100% 100%;
     z-index: 0;
@@ -39,16 +45,17 @@
 .formgroup {
     color: white;
     position: relative;
-    margin-bottom: 7%;
-    margin-left: 16%;
+    margin-bottom: 10%;
 }
 .registerPage input {
-    width: 80%;
+    width: 100%;
+    padding: 10px 5px;
 }
 .registerPage label{
     color: white;
     position: absolute;
-    top: -50%;
+    top: -60%;
+    left:0;
     font-size: var(--font-size-small);
     opacity: 1;
     transform: translateY(0);
@@ -75,25 +82,26 @@
 
 
 .registerPage button {
+    align-self: end;
     z-index: 100;
     text-decoration: none;
     outline: none;
     display: inline-block;
-    width: 140px;
+    width: 165px;
     height: 45px;
-    line-height: 45px;
+    line-height: 41px;
     border-radius: 45px;
-    margin: 10px 20px;
     font-family: 'Russo One', sans-serif;
     font-size: 11px;
     text-transform: uppercase;
     text-align: center;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: 600;
     color: #111211;
     background: #46e881;
     box-shadow: 0 8px 15px rgba(0,0,0,.1);
     transition: .3s;
+    align-self: flex-end;
 }
 .registerPage button:hover {
     background: #2EE59D;
