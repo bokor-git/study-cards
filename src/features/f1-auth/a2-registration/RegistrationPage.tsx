@@ -3,7 +3,7 @@ import style from "./css.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
-import {registrationTC} from "../../../main/m2-bll/registration-reducer";
+import {registrationTC, setIsLoadingAC} from "../../../main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 
@@ -12,8 +12,8 @@ function RegisterPage() {
 
     const dispatch = useDispatch();
     const isRegistered = useSelector<AppRootStateType, boolean>(state => state.registrationPage.isRegistered);
-
-    let loading = useSelector<AppRootStateType, boolean>(state => state.passwordResetPage.loading)
+    const isLoading = useSelector<AppRootStateType, boolean>(state => state.registrationPage.isLoading);
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
     const formik = useFormik({
         validate: (values) => {
             if (!values.email) {
@@ -26,22 +26,17 @@ function RegisterPage() {
                     password: 'Please enter your password'
                 }
             }
-            // if (!values.verification_password) {
-            //     return {
-            //         verification_password: 'Please accept your password'
-            //     }
-            // }
         },
         initialValues: {
             email: '',
             password: '',
-            // verification_password: '',
         },
         onSubmit: values => {
             let data = {
                 email: values.email,
                 password: values.password
             }
+            dispatch(setIsLoadingAC(true))
             dispatch(registrationTC(data))
         },
     });
@@ -66,7 +61,6 @@ function RegisterPage() {
                                 onChange={formik.handleChange}
                                 value={formik.values.email}/>
                             <label htmlFor={"email"}>Email</label>
-                            {formik.errors.email ? <div className={style.error}>{formik.errors.email}</div> : null}
                         </div>
                         <div className={style.formgroup}>
                             <input
@@ -78,23 +72,18 @@ function RegisterPage() {
                                 onChange={formik.handleChange}
                                 value={formik.values.password}/>
                             <label htmlFor={"password"}>Password</label>
-                            {formik.errors.password ?
-                                <div className={style.error}>{formik.errors.password}</div> : null}
+                            {/*{formik.errors.password ?*/}
+                            {/*    <div className={style.error}>{formik.errors.password}</div> : null}*/}
                         </div>
-                        {/*Confirm the password*/}
-                        {/*<input*/}
-                        {/*    className={style.input}*/}
-                        {/*    name="verification_password"*/}
-                        {/*    type="password"*/}
-                        {/*    onChange={formik.handleChange}*/}
-                        {/*    value={formik.values.verification_password}/>*/}
-                        {/*{formik.errors.verification_password ?*/}
-                        {/*    <div className={style.error}>{formik.errors.verification_password}</div> : null}*/}
-{/*9*/}
-                        <div className={style.buttonRegister}>
                             <button>Регистрация</button>
-                        </div>
-                        <ErrorSnackbar/>
+                        { isLoading === true ?
+                            <div className={style.preloader}>
+                            <div className={style.preloader__image_animate}></div>
+                            </div> :
+                            <span></span>}
+                        {formik.errors.password ?<div className={style.errorMessage}><div className={style.errorText}>Password<br/> incorrect</div></div>: null}
+                        {formik.errors.email ?<div className={style.errorMessage}><div className={style.errorText}>Email<br/> incorrect</div></div>: null}
+                        {error ?<div className={style.errorMessage}><div className={style.errorText}>{error}</div></div>: null}
                     </form>
                 </div>
             </div>
