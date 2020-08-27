@@ -9,8 +9,54 @@
     overflow: hidden;
 
 }
+:root{
+    --logo-size:80px;
+    --logo-half-size:40px;
+}
+.preloader{
+    display: flex;
+    background: #222222;
+    position: relative;
+    transition: 0.5s;
+}
+.preloader__image_animate{
+    background-image: url("../../../main/m1-ui/common/Images/DogPreloader.png");
+    background-size: var(--logo-size) var(--logo-size);
+    width: var(--logo-size);
+    height: var(--logo-size);
+    position: absolute;
+    top: calc(50% - var(--logo-half-size));
+    left: calc(50% - var(--logo-half-size));
+    transition: 1s linear;
+    animation: up-down 1s infinite;
+}
+@keyframes up-down{
+    0%{
+        top: calc(50% - var(--logo-half-size));
+    }
+    0%{
+        top: calc(50% - 10px);
+    }
+    75%{
+        top: calc(50%);
+    }
+    100%{
+        top: calc(50% - 10px);
+    }
+    from{
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 .registerPage form{
-    width: 60%;
+    width: 70%;
     display: flex;
     flex-direction: column;
 }
@@ -38,14 +84,14 @@
     color: black;
     z-index: 100;
     text-align: center;
-    margin-top: 7%;
+    margin-top: 5%;
     margin-bottom: 5%;
 }
 
 .formgroup {
     color: white;
     position: relative;
-    margin-bottom: 10%;
+    margin-bottom: 8%;
 }
 .registerPage input {
     width: 100%;
@@ -114,10 +160,27 @@
     align-items: center;
     justify-content: center;
 }
-.error{
+.errorMessage{
+    position: relative;
+    transform: scale(-1, 1);
+    bottom: 50%;
+    right: 50%;
+    width: 150px;
+    height: 150px;
+    background-image: url("../../../main/m1-ui/common/Images/error.png");
+    background-size: 100% 100%;
+    margin: 0;
     font-weight:600;
     color:red;
-    margin-bottom: 10px;
+}
+.errorText{
+    text-align: center;
+    position: relative;
+    top:20%;
+    transform: scale(-1, 1);
+    font-size: 16px;
+    font-family: 'Russo One', sans-serif;
+    color:red;
 }
 @media (max-width: 1200px){
     .contentContainer{
