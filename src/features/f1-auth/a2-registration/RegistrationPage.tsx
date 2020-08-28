@@ -5,7 +5,6 @@ import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
 import {registrationTC, setIsLoadingAC} from "../../../main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
-import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 
 
 function RegisterPage() {
@@ -14,6 +13,10 @@ function RegisterPage() {
     const isRegistered = useSelector<AppRootStateType, boolean>(state => state.registrationPage.isRegistered);
     const isLoading = useSelector<AppRootStateType, boolean>(state => state.registrationPage.isLoading);
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
+
+    const checkEmail = /\S+@\S+\.\S+/
+    const checkPassword = /(?=.*[0-9])(?=.*[a-z])[0-9a-z]{8,}/
+
     const formik = useFormik({
         validate: (values) => {
             if (!values.email) {
@@ -72,8 +75,6 @@ function RegisterPage() {
                                 onChange={formik.handleChange}
                                 value={formik.values.password}/>
                             <label htmlFor={"password"}>Password</label>
-                            {/*{formik.errors.password ?*/}
-                            {/*    <div className={style.error}>{formik.errors.password}</div> : null}*/}
                         </div>
                             <button>Регистрация</button>
                         { isLoading === true ?

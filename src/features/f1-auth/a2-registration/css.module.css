@@ -64,7 +64,7 @@
 {
     margin-left: 5%;
     margin-right: 5%;
-    min-width: 36%;
+    min-width: 450px;
     position: relative;
 }
 .Container{
@@ -75,7 +75,7 @@
     background-size: 100% 100%;
     z-index: 0;
     width: 100%;
-    height: 40vh;
+    height: 350px;
     border-radius: 10%;
     margin-top: 45%;
 }
@@ -191,27 +191,23 @@
     color:red;
 }
 @media (max-width: 1200px){
-    .contentContainer{
-        min-width: 50%;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
+
 }
 @media (max-width: 992px){
     .contentContainer{
-        min-width: 70%;
+        width:100%;
         margin-left: 5%;
         margin-right: 5%;
     }
 }
 @media (max-width: 760px) {
     .contentContainer {
-        min-width: 90%;
         margin-left: 5%;
         margin-right: 5%;
     }
     .Container
     {
-        height: 50vh;
+        width:70%;
+        height: 50%;
     }
 }
