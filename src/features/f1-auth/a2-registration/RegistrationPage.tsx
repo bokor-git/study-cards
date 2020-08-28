@@ -19,12 +19,12 @@ function RegisterPage() {
 
     const formik = useFormik({
         validate: (values) => {
-            if (!values.email) {
+            if (checkEmail.test(values.email) === false) {
                 return {
                     email: 'Please enter your email'
                 }
             }
-            if (!values.password) {
+            if (checkPassword.test(values.password) === false) {
                 return {
                     password: 'Please enter your password'
                 }
@@ -87,6 +87,9 @@ function RegisterPage() {
                         {error ?<div className={style.errorMessage}><div className={style.errorText}>{error}</div></div>: null}
                     </form>
                 </div>
+                <div className={style.rules}>Правила  регистрации:<br/><br/>
+                    Пример Email`a : test@test.ru<br/>
+                    Пароль: от 8 символов,прописные буквы и цифры обязательно</div>
             </div>
 
         </div>
