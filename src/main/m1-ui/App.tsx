@@ -24,7 +24,7 @@ function App() {
                         <Route path="/password-generation"
                                render={() => (<h1>We send to your mail link for password change. Use it!</h1>)}/>
                         <Route path="/profile" render={() => (<ProfilePage/>)}/>
-                        <Route path="/Cards" render={() => (<CardsPage/>)}/>
+                        <Route path="/Cards/:id" render={() => (<CardsPage/>)}/>
                         <Route path="/Packs" render={() => (<PacksPage/>)}/>
                     </Switch>
                 </>

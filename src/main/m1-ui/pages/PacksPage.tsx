@@ -1,11 +1,12 @@
 import React from "react";
-import TableOfPacks from "../../../features/f2-table/a1-TableOfPacks/TableOfPacks";
+import PackPage from "../../../features/f2-table/a1-TableOfPacks/PacksPage";
+
 
 
 
 function PacksPage() {
 
-    return <TableOfPacks/>
+    return <PackPage/>
 }
 
 export default PacksPage;

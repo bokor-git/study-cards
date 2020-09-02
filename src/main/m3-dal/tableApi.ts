@@ -28,7 +28,23 @@ export const TableApi = {
     updatePack(data:UpdatePackDataType) {
         const promise = instance.put('cards/pack',data );
         return promise;
-    }
+    },
+    getCards(data:GetCardsDataType) {
+        const promise = instance.get(`cards/card?&cardsPack_id=${data.cardsPack_id}&pageCount=100` );
+        return promise;
+    },
+    addCard(data:AddCardDataType) {
+        const promise = instance.post('cards/card',data);
+        return promise;
+    },
+    deleteСard(data:string) {
+        const promise = instance.delete(`cards/card?id=${data}`);
+        return promise;
+    },
+    updateСard(data:UpdateCardDataType) {
+        const promise = instance.put(`cards/card`,data);
+        return promise;
+    },
 }
 export type AddPackDataType = {
     cardsPack: {
@@ -54,4 +70,42 @@ export type UpdatePackDataType = {
         private?:false
         type?:string
     }
+}
+export type GetCardsDataType = {
+    cardsPack_id: string
+    cardAnswer?: string
+    cardQuestion?: string
+    min?: number
+    max?: number
+    sortCards?: number
+    page?: number
+    pageCount?: number
+}
+export type AddCardDataType = {
+    card: {
+        cardsPack_id: string
+        question?: string
+        answer?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+}
+export type UpdateCardDataType = {
+    card: {
+        _id: string
+        question?: string
+        comments?: string
+    }
+    packId:string
+
+}
+export type DeleteCardDataType = {
+    cardId: string
+    packId: string
 }
