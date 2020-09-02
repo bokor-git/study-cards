@@ -6,6 +6,7 @@ import {passwordResetReducer} from "./password-reset-reducer";
 import {passwordGenerationReducer} from "./password-gereration-reducer";
 import {authReducer} from "./login-reducer";
 import {ProfileReducer} from "./profile-reducer";
+import {tableReducer} from "./table-reduser";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     passwordGenerationPage: passwordGenerationReducer,
     profilePage: ProfileReducer,
     auth:authReducer,
+    table:tableReducer,
 
 })
 // непосредственно создаём store

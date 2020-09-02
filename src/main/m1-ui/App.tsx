@@ -7,6 +7,8 @@ import PasswordGenerationPage from "./pages/PasswordGenerationPage";
 import ProfilePage from "./pages/ProfilePage";
 import HeaderNavbar from "./header/HeaderNavbar";
 import LoginPage from "./pages/LoginPage";
+import CardsPage from "./pages/CardsPage";
+import PacksPage from "./pages/PacksPage";
 
 function App() {
     return (
@@ -22,6 +24,8 @@ function App() {
                         <Route path="/password-generation"
                                render={() => (<h1>We send to your mail link for password change. Use it!</h1>)}/>
                         <Route path="/profile" render={() => (<ProfilePage/>)}/>
+                        <Route path="/Cards" render={() => (<CardsPage/>)}/>
+                        <Route path="/Packs" render={() => (<PacksPage/>)}/>
                     </Switch>
                 </>
             </div>

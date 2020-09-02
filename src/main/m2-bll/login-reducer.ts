@@ -3,20 +3,36 @@ import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
 import {authAPI, LoginParamsType} from "../m3-dal/login-api";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
+
+export type userDate = {
+    email : string
+    name : string
+    isAdmin: boolean
+    rememberMe: boolean
+    token: string
+    tokenDeathTime: number
+    __v:number
+    _id: string
+    success:boolean
+
+}
+
+type InitialStateType = {
+    isLoginIn: boolean,
+    UserData: userDate
+}
 const initialState: InitialStateType = {
     isLoginIn: false,
     UserData: {
-        _id: '0',
-        email: '',
-        name: '',
-        publicCardPacksCount: 0, // количество колод
-        created: new Date(),
-        updated: new Date(),
+        email : "",
+        name : "",
         isAdmin: false,
-        verified: false, // подтвердил ли почту
         rememberMe: false,
-        error: ''
-
+        token: "",
+        tokenDeathTime: 0,
+        __v: 0,
+        _id: "",
+        success: false,
     }
 }
 
@@ -39,10 +55,12 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'SET-IS-LOGIN-IN', value} as const)
-export const setUsersDataAC = (Userdata: LoginParamsType) =>
+export const setUsersDataAC = (Userdata: userDate) =>
     ({type: 'SET-USER-DATA-IN', Userdata} as const)
 export const setIsLogoutInAC = (value: boolean) =>
     ({type: 'SET-IS-LOGOUT-IN', value} as const)
+export const setTokenAC = (token: string) =>
+    ({type: 'SET-IS-LOGIN-IN', token} as const)
 
 
 // thunks
@@ -72,10 +90,8 @@ type ActionsType =
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setUsersDataAC>
     | ReturnType<typeof setIsLogoutInAC>
-type InitialStateType = {
-    isLoginIn: boolean,
-    UserData: LoginParamsType
-}
+
+
 
 
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
