@@ -14,30 +14,20 @@ export const authAPI = {
         const promise = instance.post('auth/login', data);
         return promise;
     },
-    logout(){
+    logout() {
         const promise = instance.delete('auth/me');
         return promise;
     },
     authMe() {
-        return instance.post('auth/me',{});
+        return instance.post('auth/me', {});
     }
 }
 
 // types
 export type LoginParamsType = {
-
+    password: string
     rememberMe: boolean
-    _id?: string;
     email: string;
-    name?: string;
-    avatar?: string;
-    publicCardPacksCount?: number; // количество колод
-
-    created?: Date;
-    updated?: Date;
-    isAdmin?: boolean;
-    verified: boolean; // подтвердил ли почту
-    error?: string;
 }
 
 
