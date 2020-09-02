@@ -1,60 +1,67 @@
 import style from "./css.module.css";
 import React from "react";
-import {CardsType, CardType, PackType} from "../../../m2-bll/table-reduser";
-import {Link, Redirect, NavLink} from "react-router-dom";
-import {AddPackDataType} from "../../../m3-dal/tableApi";
+import {CardType, PackType} from "../../../main/m2-bll/table-reduser";
+
+
 
 type ButtonType = {
     name: string
     onClick?: (data:any) => any
 }
-type columnsNamePropsType = {
-    Content: Array<any>
-}
-type RowContentPropsType = {
-    Data: Array<PackType> | null
-    buttonsData: Array<ButtonType>
-}
+
 type ButtonsPropsType = {
     buttonsData: Array<ButtonType>
-    id: string
+    cardId: string
+    PackId: string
 }
-type TablePropsType = {
-    columnsName: Array<any>
-    rowContent: Array<PackType> | null
-    buttonsData: Array<ButtonType>
-}
+
 function Buttons(props: ButtonsPropsType) {
     return (
         <div>
             {props.buttonsData.map((i) => {
                 let onclick = i.onClick
-                function Handler(){if (onclick) onclick(props.id)}
+                let Handler = () => {}
+                if (i.name === "Delete"){ Handler = () => {if (onclick) onclick({cardId: props.cardId,packId: props.PackId})}}
+                else {Handler = () => {if (onclick) onclick({
+                    card: {_id:props.cardId},packId:props.PackId})}}
                 return <button onClick={Handler}>{i.name}</button>
             })}
         </div>)
 }
+type columnsNamePropsType = {
+    Content: Array<any>
+}
 
 function ColumnsName(props: columnsNamePropsType) {
     return (<div className={style.Content}>
-        {props.Content.map((e: any) => {
-            return <div style={{width:`calc(90vw/${props.Content.length})`}}>{e}</div>
+        {props.Content.map((i: any) => {
+            return <div style={{width:`calc(90vw/${props.Content.length})`}}>{i}</div>
         })}
     </div>)
 }
 
+type RowContentPropsType = {
+    Data: Array<CardType> | null
+    buttonsData: any
+}
 function RowContent(props: RowContentPropsType) {
     return (<>
         {props.Data === null ? <div>Загрузка</div> :
             props.Data.map((i) => {
                 return <ColumnsName
-                    Content={[i.name, i.cardsCount, i.updated, "", <Buttons id={i._id} buttonsData={props.buttonsData}/>]}/>
+                    Content={[i.question, i.answer, i.grade, i.updated,"url",
+                        <Buttons cardId={i._id} PackId={i.cardsPack_id} buttonsData={props.buttonsData}/>]}/>
             })}
     </>)
 }
 
 
-function NewTable(props: TablePropsType) {
+type TablePropsType = {
+    columnsName: Array<any>
+    rowContent: Array<CardType> | null
+    buttonsData: Array<ButtonType>
+}
+function TableForCards(props: TablePropsType) {
     return (
         <div className={style.Table}>
             <div className={style.HeaderTable}>
@@ -68,4 +75,4 @@ function NewTable(props: TablePropsType) {
 }
 
 
-export default NewTable;
+export default TableForCards;

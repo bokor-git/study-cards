@@ -1,8 +1,6 @@
 import style from "./css.module.css";
 import React from "react";
-import {CardsType, CardType, PackType} from "../../../m2-bll/table-reduser";
-import {Link, Redirect, NavLink} from "react-router-dom";
-import {AddPackDataType} from "../../../m3-dal/tableApi";
+import {PackType} from "../../../main/m2-bll/table-reduser";
 
 type ButtonType = {
     name: string
@@ -54,7 +52,7 @@ function RowContent(props: RowContentPropsType) {
 }
 
 
-function NewTable(props: TablePropsType) {
+function TableForPacks(props: TablePropsType) {
     return (
         <div className={style.Table}>
             <div className={style.HeaderTable}>
@@ -68,4 +66,4 @@ function NewTable(props: TablePropsType) {
 }
 
 
-export default NewTable;
+export default TableForPacks;

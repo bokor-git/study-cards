@@ -3,12 +3,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {isInitializedTC} from "../../../main/m2-bll/profile-reducer";
 import {Redirect} from "react-router-dom";
-import {addPackTC, deletePackTC, getPacksTC, PackType, updatePackTC} from "../../../main/m2-bll/table-reduser";
+import {
+    addPackTC,
+    deletePackTC,
+    getCardsTC,
+    getPacksTC,
+    PackType,
+    updatePackTC
+} from "../../../main/m2-bll/table-reduser";
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 import NewTable from "../../../main/m1-ui/common/Table/Table";
+import { useHistory } from 'react-router-dom';
+import TableForPacks from "./TablePacks";
 
 
-function TableOfPacks() {
+function PackPage() {
+    const history = useHistory()
     const dispatch = useDispatch();
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.packs);
@@ -31,23 +41,26 @@ function TableOfPacks() {
     const addButton = () => {
         dispatch(addPackTC({cardsPack: {}}))
     }
-
-    function deleteButton(id: string) {
+    const deleteButton = (id: string) => {
         dispatch(deletePackTC(id))
     }
-
-    const updateButton = (id:string) => {
-        dispatch(updatePackTC({cardsPack: {_id:id}}))
+    const updateButton = (id: string) => {
+        dispatch(updatePackTC({cardsPack: {_id: id}}))
+    }
+    const cardsButton = (id: string) => {
+        history.push(`/Cards/${id}`)
+        // dispatch(getCardsTC({cardsPack_id:id}))
     }
     return (<div>
             {!PacksData ? <div>Загрузка</div> :
-                <NewTable
+                <TableForPacks
                     columnsName={["Name", "cardsCount", "Updated", "Url", <button onClick={addButton}>Add</button>]}
                     rowContent={PacksData}
                     buttonsData={[
-                        {name: "Add",},
-                        {name: "Update", onClick:updateButton},
-                        {name: "Delete", onClick: deleteButton}]}/>}
+                        {name: "Update", onClick: updateButton},
+                        {name: "Delete", onClick: deleteButton},
+                        {name: "Cards", onClick: cardsButton},]}/>}
+
             <ErrorSnackbar/>
         </div>
 
@@ -55,4 +68,4 @@ function TableOfPacks() {
 }
 
 
-export default TableOfPacks;
+export default PackPage;
