@@ -74,7 +74,6 @@ export default function LoginNew() {
             email: '',
             password:'',
             rememberMe: false,
-            verified:false
         },
         onSubmit: values => {
             dispatch(loginTC(values));

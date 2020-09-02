@@ -2,6 +2,8 @@ import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
 import {authAPI} from "../m3-dal/login-api";
 import {setIsLoggedInAC, setUsersDataAC} from "./login-reducer";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store";
 
 
 const initialState: InitialStateType = {

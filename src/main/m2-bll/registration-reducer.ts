@@ -51,7 +51,7 @@ export type InitialStateType = any
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
 
 
-type ActionsType = setIsRegistratedActionType
+type ActionsType = setIsRegistratedActionType | setIsLoadingActionType
 
 export type setIsRegistratedActionType = {
     type: string

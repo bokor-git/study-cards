@@ -14,24 +14,28 @@ function HeaderNavbar() {
     }, [])
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
 
-    if (isLoginIn === false && location.pathname.length!== 57) {
+    if (isLoginIn === false && location.pathname.length !== 57) {
         return <Redirect exact to={'/login'}/>
     }
     return (
-            <nav className={style.menu}>
-                <ul className={style.menu__list}>
-                    {isLoginIn && <li className={style.menu__group}>
-                        <button onClick={logoutHandler} className={style.menu__link_logout}>Log out</button>
-                    </li>}
-                    <li className={style.menu__group}><NavLink className={style.menu__link}
-                                                         to="/registration">registration</NavLink></li>
-                    <li className={style.menu__group}><NavLink className={style.menu__link} to="/password-reset">password
-                        reset</NavLink></li>
-                    <li className={style.menu__group}><NavLink className={style.menu__link} to="/password-generation">password
-                        generation</NavLink></li>
-                    <li className={style.menu__group}><NavLink className={style.menu__link} to="/profile">profile</NavLink></li>
-                </ul>
-            </nav>
+        <nav className={style.menu}>
+            <ul className={style.menu__list}>
+                {isLoginIn && <li className={style.menu__group}>
+				</li>}
+                <li className={style.menu__group}>
+                    <NavLink className={style.menu__link} to="/profile">My Profile</NavLink></li>
+
+                <li className={style.menu__group}>
+                    <NavLink className={style.menu__link} to="/Packs">Packs</NavLink></li>
+
+                <li className={style.menu__group}>
+                    <NavLink className={style.menu__link} to="/Cards">Cards</NavLink></li>
+
+                <li className={style.menu__group}>
+                    <NavLink className={style.menu__link} to="/password-reset">Settings</NavLink></li>
+                <button onClick={logoutHandler} className={style.menu__link_logout}>Log out</button>
+            </ul>
+        </nav>
 
     )
 

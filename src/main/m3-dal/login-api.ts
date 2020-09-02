@@ -4,7 +4,7 @@ const settings = {
     withCredentials: true
 }
 const instance = axios.create({
-    baseURL: "http://localhost:7542/2.0/",
+    baseURL: 'http://localhost:7542/2.0/',
     ...settings
 })
 
@@ -26,18 +26,9 @@ export const authAPI = {
 // types
 export type LoginParamsType = {
 
-    rememberMe: boolean
-    _id?: string;
     email: string;
-    name?: string;
-    avatar?: string;
-    publicCardPacksCount?: number; // количество колод
-
-    created?: Date;
-    updated?: Date;
-    isAdmin?: boolean;
-    verified: boolean; // подтвердил ли почту
-    error?: string;
+    rememberMe: boolean
+    password: string
 }
 
 
