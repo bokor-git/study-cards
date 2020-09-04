@@ -65,16 +65,17 @@ function PackPage() {
         setEndPagePaginatorAC(maxPages)
     }
     const goPage = (value: number) => {
+        debugger
         if(value === paginatorData.endPage){
-            setStartPagePaginatorAC(value)
-            setEndPagePaginatorAC(value+4)
+            dispatch(setStartPagePaginatorAC(value))
+            dispatch(setEndPagePaginatorAC(value+4))
             dispatch(setCurrentPagerAC(value))
             dispatch(getPacksTC(paginatorData.currentPage))
             return
         }
         else if(value === paginatorData.startPage){
-            setStartPagePaginatorAC(value-4)
-            setEndPagePaginatorAC(value)
+            dispatch(setStartPagePaginatorAC(value-4))
+            dispatch(setEndPagePaginatorAC(value))
             dispatch(setCurrentPagerAC(value))
             dispatch(getPacksTC(paginatorData.currentPage))
             return
