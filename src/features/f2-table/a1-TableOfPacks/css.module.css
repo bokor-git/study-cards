@@ -1,8 +1,7 @@
 .Table{
-    margin-top: 5%;
+    margin-top: 2%;
     width: 90vw;
-    height: 80vh;
-
+    height: 75vh;
 }
 .HeaderTable{
     display: flex;
@@ -19,13 +18,8 @@
     flex-direction: column;
     text-align: center;
     width: 90vw;
-    height: 75vh;
+    height: 70vh;
     border: 1px red solid;
-    overflow: scroll;
-
-}
-.rowItem{
-    width: calc(90vw/5);
 }
 .Content{
     display: flex;

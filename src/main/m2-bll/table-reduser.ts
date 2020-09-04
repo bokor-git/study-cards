@@ -1,8 +1,7 @@
 import {Dispatch} from "redux";
 import {
     AddCardDataType,
-    AddPackDataType,
-    DeleteCardDataType,
+    AddPackDataType, DeleteCardDataType,
     GetCardsDataType,
     TableApi,
     UpdateCardDataType,
@@ -11,22 +10,31 @@ import {
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
-type ThunkDispatchActionType =
-    setLoadingActionType | setPacksActionType |
-    setCardsActionType | SetAppStatusActionType |
-    SetAppErrorActionType
-
-type ThunkDispatch = Dispatch<ThunkDispatchActionType>
-
-type StateType = {
-    cards: any
-    packs: any
-    isLoading: boolean
+export type PaginatorType = {
+    packsCount: number
+    startPage: number
+    endPage:number
+    currentPage: number
 }
+type StateType = {
+    // cards: Array<CardType> | null
+    // packs: Array<PackType> | null
+    cards: any
+    packs:any
+    isLoading: boolean
+    paginator:PaginatorType
+}
+
 const initialState: StateType = {
     packs: null,
     cards: null,
-    isLoading: false
+    isLoading: false,
+    paginator:{
+        currentPage: 1,
+        packsCount: 1,
+        startPage: 1,
+        endPage:5,
+    }
 
 }
 
@@ -38,7 +46,22 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
             return {...state, isLoading: action.value}
         case 'SET-CARDS':
             return {...state, cards: action.cards}
-
+        case 'SET-COUNT':{
+            let CopyState = {...state,...state.paginator}
+            CopyState.paginator.packsCount = action.count
+            return CopyState}
+        case 'SET-START-VALUE-PR':{
+            let CopyState = {...state,...state.paginator}
+            CopyState.paginator.startPage = action.value
+            return CopyState}
+        case 'SET-END-VALUE-PR':{
+            let CopyState = {...state,...state.paginator}
+            CopyState.paginator.endPage = action.value
+            return CopyState}
+        case 'SET-CURRENT-PAGE':{
+            let CopyState = {...state,...state.paginator}
+            CopyState.paginator.currentPage = action.value
+            return CopyState}
         default:
             return {...state}
     }
@@ -46,19 +69,23 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
 
 
 // thunks
-export const getPacksTC = () => (dispatch: ThunkDispatch) => {
+
+type ThunkDispatch = Dispatch<ActionType | SetAppStatusActionType | SetAppErrorActionType>
+
+export const getPacksTC = (currentPage:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
-    TableApi.getPacks().then(res => {
+    TableApi.getPacks(currentPage).then(res => {
         dispatch(setPacksAC(res.data.cardPacks))
+        dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
         dispatch(setIsLoadingAC(false))
     }).catch((error) => {
         handleServerNetworkError(error, dispatch)
     })
 }
-export const addPackTC = (data: AddPackDataType) => (dispatch: ThunkDispatch) => {
+export const addPackTC = (data: AddPackDataType,currentPage:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.addPack(data).then(res => {
-        TableApi.getPacks().then(res => {
+        TableApi.getPacks(currentPage).then(res => {
             dispatch(setPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {
@@ -68,10 +95,10 @@ export const addPackTC = (data: AddPackDataType) => (dispatch: ThunkDispatch) =>
         handleServerNetworkError(error, dispatch)
     })
 }
-export const deletePackTC = (data: string) => (dispatch: ThunkDispatch) => {
+export const deletePackTC = (data: string,currentPage:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.deletePack(data).then(res => {
-        TableApi.getPacks().then(res => {
+        TableApi.getPacks(currentPage).then(res => {
             dispatch(setPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {
@@ -81,10 +108,10 @@ export const deletePackTC = (data: string) => (dispatch: ThunkDispatch) => {
         handleServerNetworkError(error, dispatch)
     })
 }
-export const updatePackTC = (data: UpdatePackDataType) => (dispatch: ThunkDispatch) => {
+export const updatePackTC = (data: UpdatePackDataType,currentPage:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.updatePack(data).then(res => {
-        TableApi.getPacks().then(res => {
+        TableApi.getPacks(currentPage).then(res => {
             dispatch(setPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {
@@ -106,7 +133,7 @@ export const getCardsTC = (data: GetCardsDataType) => (dispatch: ThunkDispatch) 
         handleServerNetworkError(error, dispatch)
     })
 }
-export const deleteCardTC = (data: any) => (dispatch: ThunkDispatch) => {
+export const deleteCardTC = (data: DeleteCardDataType) => (dispatch: ThunkDispatch) => {
     debugger
     setIsLoadingAC(true)
     TableApi.deleteСard(data.cardId).then(res => {
@@ -149,14 +176,25 @@ export const addCardTC = (data: AddCardDataType) => (dispatch: ThunkDispatch) =>
 
 
 // Action Creators
+
 export const setPacksAC = (packs: PackType) => ({type: 'SET-PACKS', packs} as const)
 export const setIsLoadingAC = (value: boolean) => ({type: 'SET-IS-LOADING', value} as const)
 export const setCardsAC = (cards: CardsType) => ({type: 'SET-CARDS', cards} as const)
+export const setPacksTotalCountAC = (count: number) => ({type: 'SET-COUNT', count} as const)
+export const setStartPagePaginatorAC = (value: number) => ({type: 'SET-START-VALUE-PR', value} as const)
+export const setEndPagePaginatorAC = (value: number) => ({type: 'SET-END-VALUE-PR', value} as const)
+export const setCurrentPagerAC = (value: number) => ({type: 'SET-CURRENT-PAGE', value} as const)
 
 type setCardsActionType = ReturnType<typeof setCardsAC>
 type setPacksActionType = ReturnType<typeof setPacksAC>
 type setLoadingActionType = ReturnType<typeof setIsLoadingAC>
-type ActionType = setLoadingActionType | setPacksActionType | setCardsActionType
+type setPacksTotalCountActionType = ReturnType<typeof setPacksTotalCountAC>
+export type setStartPagePaginatorActionType = ReturnType<typeof setStartPagePaginatorAC>
+type setEndPagePaginatorActionType = ReturnType<typeof setEndPagePaginatorAC>
+type setCurrentPagerActionType = ReturnType<typeof setCurrentPagerAC>
+
+type ActionType = setLoadingActionType | setPacksActionType | setCardsActionType | setPacksTotalCountActionType |
+    setStartPagePaginatorActionType | setEndPagePaginatorActionType | setCurrentPagerActionType
 
 
 export type PackType = {

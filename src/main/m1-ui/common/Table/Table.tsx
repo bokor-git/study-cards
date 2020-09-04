@@ -1,71 +1,103 @@
-import style from "./css.module.css";
-import React from "react";
-import {CardsType, CardType, PackType} from "../../../m2-bll/table-reduser";
-import {Link, Redirect, NavLink} from "react-router-dom";
-import {AddPackDataType} from "../../../m3-dal/tableApi";
+// пример универсальной таблицы				
+import React, {CSSProperties, ReactNode} from 'react';
 
-type ButtonType = {
-    name: string
-    onClick?: (data:any) => any
+export interface ITableModel {
+    title: (index: number) => ReactNode;
+    render: (dataItem: any, modelIndex: number, dataIndex: number) => ReactNode;
 }
-type columnsNamePropsType = {
-    Content: Array<any>
+
+interface ITableProps {
+// loading: boolean;				
+// error: string;				
+//				
+// logoutCallback: () => void;				
+
+    model: ITableModel[];
+    data: any;
+
+    headerStyle?: CSSProperties,
+    tableStyle?: CSSProperties,
+    rowsStyle?: CSSProperties,
+    rowStyle?: CSSProperties,
 }
-type RowContentPropsType = {
-    Data: Array<PackType> | null
-    buttonsData: Array<ButtonType>
-}
-type ButtonsPropsType = {
-    buttonsData: Array<ButtonType>
-    id: string
-}
-type TablePropsType = {
-    columnsName: Array<any>
-    rowContent: Array<PackType> | null
-    buttonsData: Array<ButtonType>
-}
-function Buttons(props: ButtonsPropsType) {
+
+const Table: React.FC<ITableProps> = (
+    {
+// loading,				
+// error,				
+//				
+// logoutCallback,				
+
+        model,
+        data,
+
+        headerStyle,
+        tableStyle,
+        rowsStyle,
+        rowStyle,
+    }
+) => {
+
     return (
-        <div>
-            {props.buttonsData.map((i) => {
-                let onclick = i.onClick
-                function Handler(){if (onclick) onclick(props.id)}
-                return <button onClick={Handler}>{i.name}</button>
-            })}
-        </div>)
-}
+        <div
+            style={{
+                margin: '0 10px',
+// minHeight: '80vh',				
+                display: 'flex',
+                flexFlow: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                ...tableStyle,
+            }}
+        >
+            table
 
-function ColumnsName(props: columnsNamePropsType) {
-    return (<div className={style.Content}>
-        {props.Content.map((e: any) => {
-            return <div style={{width:`calc(90vw/${props.Content.length})`}}>{e}</div>
-        })}
-    </div>)
-}
+            {/*{loading*/}
+            {/*? <div style={{color: 'orange'}}>loading...</div>*/}
+            {/*: error*/}
+            {/*? <div style={{color: 'red'}}>{error}</div>*/}
+            {/*: <div><br/></div>*/}
+            {/*}*/}
 
-function RowContent(props: RowContentPropsType) {
-    return (<>
-        {props.Data === null ? <div>Загрузка</div> :
-            props.Data.map((i) => {
-                return <ColumnsName
-                    Content={[i.name, i.cardsCount, i.updated, "", <Buttons id={i._id} buttonsData={props.buttonsData}/>]}/>
-            })}
-    </>)
-}
-
-
-function NewTable(props: TablePropsType) {
-    return (
-        <div className={style.Table}>
-            <div className={style.HeaderTable}>
-                <ColumnsName Content={props.columnsName}/>
+            <div
+                style={{
+                    border: '1px solid red',
+                    width: '100%',
+                    display: 'flex',
+                    flexFlow: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    ...headerStyle,
+                }}
+            >
+                {model.map((m: ITableModel, index: number) => m.title(index))}
             </div>
-            <div className={style.ContentTable}>
-                <RowContent Data={props.rowContent} buttonsData={props.buttonsData}/>
+
+            <div
+                style={{
+                    border: '1px solid lime',
+                    width: '100%',
+                    ...rowsStyle,
+                }}
+            >
+                {data.map((dataItem: any, dataIndex: number) => (
+                    <div
+                        key={dataItem._id || dataIndex}
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            flexFlow: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            ...rowStyle,
+                        }}
+                    >
+                        {model.map((m, modelIndex) => m.render(dataItem, modelIndex, dataIndex))}
+                    </div>
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-
-export default NewTable;
+export default Table;				

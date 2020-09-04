@@ -13,8 +13,8 @@ const instance = axios.create({
 
 
 export const TableApi = {
-    getPacks() {
-        const promise = instance.get('cards/pack?&pageCount=100' );
+    getPacks(page:number) {
+        const promise = instance.get(`cards/pack?&page=${page}&pageCount=25` );
         return promise;
     },
     addPack(data:AddPackDataType) {

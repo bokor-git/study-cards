@@ -71,6 +71,7 @@ function TableForCards(props: TablePropsType) {
                 <RowContent Data={props.rowContent} buttonsData={props.buttonsData}/>
             </div>
         </div>
+
     )
 }
 

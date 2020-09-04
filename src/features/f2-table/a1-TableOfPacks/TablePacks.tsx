@@ -36,7 +36,8 @@ function Buttons(props: ButtonsPropsType) {
 function ColumnsName(props: columnsNamePropsType) {
     return (<div className={style.Content}>
         {props.Content.map((e: any) => {
-            return <div style={{width:`calc(90vw/${props.Content.length})`}}>{e}</div>
+            return <div style={{width:`calc(90vw/${props.Content.length})`,
+            height:`calc(70vh/25)`}}>{e}</div>
         })}
     </div>)
 }

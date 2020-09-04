@@ -5,7 +5,7 @@ import {Redirect, useParams} from 'react-router-dom'
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import TableForCards from "./TableCards";
 import {isInitializedTC} from "../../../main/m2-bll/profile-reducer";
-import {AddCardDataType, DeleteCardDataType, UpdateCardDataType} from "../../../main/m3-dal/tableApi";
+import {DeleteCardDataType, UpdateCardDataType} from "../../../main/m3-dal/tableApi";
 
 
 function CardPage() {
@@ -25,16 +25,25 @@ function CardPage() {
         checkAuth(isLoginIn)
         dispatch(getCardsTC({cardsPack_id: id}))
     }, [])
-    const addButton = () => { dispatch(addCardTC({card:{cardsPack_id:id}}))}
-    const updateButton = (data:UpdateCardDataType) => { dispatch(updateCardTC(data))}
-    const deleteButton = (data:DeleteCardDataType) => { dispatch(deleteCardTC(data))}
+    const addButton = () => {
+        dispatch(addCardTC({card: {cardsPack_id: id}}))
+    }
+    const updateButton = (data: UpdateCardDataType) => {
+        dispatch(updateCardTC(data))
+    }
+    const deleteButton = (data: DeleteCardDataType) => {
+        dispatch(deleteCardTC(data))
+    }
     return <div>
-        {!CardsData ? <div>Загрузка</div> :
-            <TableForCards columnsName={["question","answer","Grade","updated","url",<button onClick={addButton}>Add</button>]}
+        {!CardsData ? <div>Загрузка</div> : <div>
+            <TableForCards columnsName={["question", "answer", "Grade", "updated", "url",
+                <button onClick={addButton}>Add</button>]}
                            rowContent={CardsData}
                            buttonsData={[
-                               {name: "Update",onClick:updateButton},
-                               {name: "Delete",onClick:deleteButton}]}/>}
+                               {name: "Update", onClick: updateButton},
+                               {name: "Delete", onClick: deleteButton}]}/>
+            <div>паГинация</div>
+        </div>}
     </div>
 }
 

@@ -1,0 +1,15 @@
+
+.Main{
+    display: flex;
+    flex-direction: column;
+}
+.Pagination{
+    margin-top: 10px;
+    align-self: flex-end;
+    height: 20px;
+    width: 300px;
+}
+.Pagination button{
+    height: 20px;
+    width: 40px;
+}
