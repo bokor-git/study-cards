@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import style from "./css.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
@@ -16,6 +16,7 @@ import {
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 import TableForPacks from "./TablePacks";
 import Paginator from "../../../main/m1-ui/common/Paginator/Paginator";
+import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 
 
 function PackPage() {
@@ -65,7 +66,6 @@ function PackPage() {
         setEndPagePaginatorAC(maxPages)
     }
     const goPage = (value: number) => {
-        debugger
         if(value === paginatorData.endPage){
             dispatch(setStartPagePaginatorAC(value))
             dispatch(setEndPagePaginatorAC(value+4))
@@ -82,9 +82,10 @@ function PackPage() {
         }
 
     }
+    let [open,setModalOpen] = useState(false)
     return (<div className={style.Main}>
             {!PacksData ? <div>Загрузка</div> :
-                <>
+                open?<SimpleModal open={open} onButtonClick={addButton} setModalOpen={setModalOpen}/>:<>
                     <Paginator maxPages={maxPages}
                                endValue={paginatorData.endPage}
                                startValue={paginatorData.startPage}
@@ -92,7 +93,7 @@ function PackPage() {
                                goPage={goPage}
                                goStart={goStart}/>
                     <TableForPacks
-                        columnsName={["Name", "cardsCount", "Updated", "Url", <button onClick={addButton}>Add</button>]}
+                        columnsName={["Name", "cardsCount", "Updated", "Url", <button onClick={()=>setModalOpen(true)}>Add</button>]}
                         rowContent={PacksData}
                         buttonsData={[
                             {name: "Update", onClick: updateButton},
