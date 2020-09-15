@@ -16,7 +16,7 @@ import {
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 import TableForPacks from "./TablePacks";
 import Paginator from "../../../main/m1-ui/common/Paginator/Paginator";
-import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
+import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 
 
 function PackPage() {
@@ -35,20 +35,19 @@ function PackPage() {
         }
     }
 
-
     useEffect(() => {
         checkAuth(isLoginIn)
         dispatch(getPacksTC(paginatorData.currentPage))
     }, [])
 
-    const addButton = () => {
-        dispatch(addPackTC({cardsPack: {}}, paginatorData.currentPage))
+    const addButton = (name:string) => {
+        dispatch(addPackTC({cardsPack: {name:name}}, paginatorData.currentPage))
     }
     const deleteButton = (id: string) => {
         dispatch(deletePackTC(id, paginatorData.currentPage))
     }
-    const updateButton = (id: string) => {
-        dispatch(updatePackTC({cardsPack: {_id: id}}, paginatorData.currentPage))
+    const updateButton = (id: string, name:string) => {
+        dispatch(updatePackTC({cardsPack: {_id: id,name:name}}, paginatorData.currentPage))
     }
     const cardsButton = (id: string) => {
         history.push(`/Cards/${id}`)
@@ -62,30 +61,30 @@ function PackPage() {
     const goFinish = () => {
         dispatch(setCurrentPagerAC(maxPages))
         dispatch(getPacksTC(paginatorData.currentPage))
-        setStartPagePaginatorAC(maxPages-4)
+        setStartPagePaginatorAC(maxPages - 4)
         setEndPagePaginatorAC(maxPages)
     }
     const goPage = (value: number) => {
-        if(value === paginatorData.endPage){
+        if (value === paginatorData.endPage) {
             dispatch(setStartPagePaginatorAC(value))
-            dispatch(setEndPagePaginatorAC(value+4))
+            dispatch(setEndPagePaginatorAC(value + 4))
             dispatch(setCurrentPagerAC(value))
             dispatch(getPacksTC(paginatorData.currentPage))
             return
-        }
-        else if(value === paginatorData.startPage){
-            dispatch(setStartPagePaginatorAC(value-4))
+        } else if (value === paginatorData.startPage) {
+            dispatch(setStartPagePaginatorAC(value - 4))
             dispatch(setEndPagePaginatorAC(value))
             dispatch(setCurrentPagerAC(value))
             dispatch(getPacksTC(paginatorData.currentPage))
             return
         }
-
     }
-    let [open,setModalOpen] = useState(false)
+    let [addOpen, setAddModalOpen] = useState(false)
     return (<div className={style.Main}>
             {!PacksData ? <div>Загрузка</div> :
-                open?<SimpleModal open={open} onButtonClick={addButton} setModalOpen={setModalOpen}/>:<>
+                <>
+                    <SimpleModalInput  text={"Do you want to create new pack?"} open={addOpen}
+                                         onButtonClick={addButton} setModalOpen={setAddModalOpen}/>:
                     <Paginator maxPages={maxPages}
                                endValue={paginatorData.endPage}
                                startValue={paginatorData.startPage}
@@ -93,7 +92,8 @@ function PackPage() {
                                goPage={goPage}
                                goStart={goStart}/>
                     <TableForPacks
-                        columnsName={["Name", "cardsCount", "Updated", "Url", <button onClick={()=>setModalOpen(true)}>Add</button>]}
+                        columnsName={["Name", "cardsCount", "Updated", "Url",
+                            <button onClick={() => setAddModalOpen(true)}>Add</button>]}
                         rowContent={PacksData}
                         buttonsData={[
                             {name: "Update", onClick: updateButton},

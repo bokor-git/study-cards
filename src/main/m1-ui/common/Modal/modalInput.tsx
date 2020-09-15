@@ -1,6 +1,7 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import React, {useState} from 'react';
+import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import {TextField} from "@material-ui/core";
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -30,23 +31,30 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function SimpleModal({ text,open, setModalOpen, onButtonClick}:{text:string,open:boolean, setModalOpen:(value:boolean)=>void, onButtonClick:(id?:string)=>void}) {
+export default function SimpleModalInput({text, open, setModalOpen, onButtonClick}: { text: string, open: boolean, setModalOpen: (value: boolean) => void, onButtonClick: (name: string) => void }) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const confirm = (data:any)=>{setModalOpen(false); onButtonClick()}
-    const cancel = ()=>{setModalOpen(false)}
-
+    const confirm = (data: any) => {
+        setModalOpen(false);
+        onButtonClick(name)
+        setName("")
+    }
+    const cancel = () => {
+        setModalOpen(false)
+    }
+    let [name, setName] = useState<string>("")
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title">{text}</h2>
+            <TextField name={"Name"} onChange={(event) => setName(event.currentTarget.value)}/>
             <p id="simple-modal-description">
 
             </p>
             <button type="button" onClick={confirm}>
-                Yes
+                Add
             </button>
             <button type="button" onClick={cancel}>
-                No
+                Cancel
             </button>
         </div>
     );
@@ -56,7 +64,7 @@ export default function SimpleModal({ text,open, setModalOpen, onButtonClick}:{t
 
             <Modal
                 open={open}
-                onClose={()=>setModalOpen(false)}
+                onClose={() => setModalOpen(false)}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >

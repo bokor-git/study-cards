@@ -1,8 +1,8 @@
 import style from "./css.module.css";
-import React from "react";
+import React, {useState} from "react";
 import {CardType, PackType} from "../../../main/m2-bll/table-reduser";
-
-
+import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
+import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 
 type ButtonType = {
     name: string
@@ -16,15 +16,29 @@ type ButtonsPropsType = {
 }
 
 function Buttons(props: ButtonsPropsType) {
+    let [deleteOpen, setDeleteOpen] = useState(false)
+    let [update, setUpdateOpen] = useState(false)
     return (
         <div>
             {props.buttonsData.map((i) => {
                 let onclick = i.onClick
-                let Handler = () => {}
-                if (i.name === "Delete"){ Handler = () => {if (onclick) onclick({cardId: props.cardId,packId: props.PackId})}}
-                else {Handler = () => {if (onclick) onclick({
-                    card: {_id:props.cardId},packId:props.PackId})}}
-                return <button onClick={Handler}>{i.name}</button>
+                let Handler = (question?:string) => {}
+                switch (i.name) {
+                    case "Delete":
+                        Handler = () => {if (onclick) onclick({cardId: props.cardId,packId: props.PackId})}
+                        return (<>
+                                <SimpleModal text={"Do you want to delete pack?"} open={deleteOpen} onButtonClick={Handler} setModalOpen={setDeleteOpen}/>
+                                 <button onClick={() => setDeleteOpen(true)}>{i.name}</button>
+                                </>
+                        )
+                    case "Update":
+                        Handler = (question?:string) => {if (onclick) onclick({card: {_id:props.cardId, question:question},packId:props.PackId})}
+                        return (<>
+                                <SimpleModalInput text={"Do you want to update pack?"} open={update} onButtonClick={Handler} setModalOpen={setUpdateOpen}/>
+                                <button onClick={() => setUpdateOpen(true)}>{i.name}</button>
+                                </>
+                        )
+                }
             })}
         </div>)
 }
