@@ -1,8 +1,10 @@
 import style from "./css.module.css";
 import React, {useState} from "react";
-import {CardType, PackType} from "../../../main/m2-bll/table-reduser";
+import {CardType} from "../../../main/m2-bll/table-reduser";
 import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
+import SimpleModalGrade from "../../../main/m1-ui/common/Modal/modalGrade";
+import {Button} from "@material-ui/core";
 
 type ButtonType = {
     name: string
@@ -18,25 +20,33 @@ type ButtonsPropsType = {
 function Buttons(props: ButtonsPropsType) {
     let [deleteOpen, setDeleteOpen] = useState(false)
     let [update, setUpdateOpen] = useState(false)
+    let [grade, setGradeOpen] = useState(false)
     return (
-        <div>
+        <div style={{display:"flex"}}>
             {props.buttonsData.map((i) => {
                 let onclick = i.onClick
-                let Handler = (question?:string) => {}
                 switch (i.name) {
                     case "Delete":
-                        Handler = () => {if (onclick) onclick({cardId: props.cardId,packId: props.PackId})}
+                       const DeleteHandler = () => {if (onclick) onclick({cardId: props.cardId,packId: props.PackId})}
                         return (<>
-                                <SimpleModal text={"Do you want to delete pack?"} open={deleteOpen} onButtonClick={Handler} setModalOpen={setDeleteOpen}/>
-                                 <button onClick={() => setDeleteOpen(true)}>{i.name}</button>
+                                <SimpleModal text={"Do you want to delete pack?"} open={deleteOpen} onButtonClick={DeleteHandler} setModalOpen={setDeleteOpen}/>
+                                 <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setDeleteOpen(true)}>{i.name}</Button>
                                 </>
                         )
                     case "Update":
-                        Handler = (question?:string) => {if (onclick) onclick({card: {_id:props.cardId, question:question},packId:props.PackId})}
+                       const UpdateHandler = (question?:string) => {if (onclick) onclick({card: {_id:props.cardId, question:question},packId:props.PackId})}
                         return (<>
-                                <SimpleModalInput text={"Do you want to update pack?"} open={update} onButtonClick={Handler} setModalOpen={setUpdateOpen}/>
-                                <button onClick={() => setUpdateOpen(true)}>{i.name}</button>
+                                <SimpleModalInput text={"Do you want to update pack?"} open={update} onButtonClick={UpdateHandler} setModalOpen={setUpdateOpen}/>
+                                <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setUpdateOpen(true)}>{i.name}</Button>
                                 </>
+                        )
+                    case "Grade":
+                        const GradeHandler = (grade:number) => { if (onclick) onclick({card_id:props.cardId, grade:grade})}
+
+                        return (<>
+                                <SimpleModalGrade text={"Rating"} open={grade} onButtonClick={GradeHandler} setModalOpen={setGradeOpen}/>
+                                <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setGradeOpen(true)}>{i.name}</Button>
+                            </>
                         )
                 }
             })}
@@ -63,12 +73,11 @@ function RowContent(props: RowContentPropsType) {
         {props.Data === null ? <div>Загрузка</div> :
             props.Data.map((i) => {
                 return <ColumnsName
-                    Content={[i.question, i.answer, i.grade, i.updated,"url",
+                    Content={[i.question, i.answer, i.grade, i.updated,"will be soon...)",
                         <Buttons cardId={i._id} PackId={i.cardsPack_id} buttonsData={props.buttonsData}/>]}/>
             })}
     </>)
 }
-
 
 type TablePropsType = {
     columnsName: Array<any>

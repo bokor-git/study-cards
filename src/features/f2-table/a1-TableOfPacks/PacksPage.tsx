@@ -17,6 +17,7 @@ import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnack
 import TableForPacks from "./TablePacks";
 import Paginator from "../../../main/m1-ui/common/Paginator/Paginator";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
+import {Button} from "@material-ui/core";
 
 
 function PackPage() {
@@ -85,21 +86,22 @@ function PackPage() {
                 <>
                     <SimpleModalInput  text={"Do you want to create new pack?"} open={addOpen}
                                          onButtonClick={addButton} setModalOpen={setAddModalOpen}/>:
+                    <TableForPacks
+                        columnsName={["Name", "Cards quantity", "Last update", "Url",
+                            <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
+                        rowContent={PacksData}
+                        buttonsData={[
+                            {name: "Update", onClick: updateButton},
+                            {name: "Delete", onClick: deleteButton},
+                            {name: "Cards", onClick: cardsButton},]}/>
                     <Paginator maxPages={maxPages}
                                endValue={paginatorData.endPage}
                                startValue={paginatorData.startPage}
                                goFinish={goFinish}
                                goPage={goPage}
                                goStart={goStart}/>
-                    <TableForPacks
-                        columnsName={["Name", "cardsCount", "Updated", "Url",
-                            <button onClick={() => setAddModalOpen(true)}>Add</button>]}
-                        rowContent={PacksData}
-                        buttonsData={[
-                            {name: "Update", onClick: updateButton},
-                            {name: "Delete", onClick: deleteButton},
-                            {name: "Cards", onClick: cardsButton},]}/>
-                </>}
+                </>
+            }
 
             <ErrorSnackbar/>
         </div>

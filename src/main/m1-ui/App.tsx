@@ -9,6 +9,7 @@ import HeaderNavbar from "./header/HeaderNavbar";
 import LoginPage from "./pages/LoginPage";
 import CardsPage from "./pages/CardsPage";
 import PacksPage from "./pages/PacksPage";
+import Files from "./pages/Files";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/profile" render={() => (<ProfilePage/>)}/>
                         <Route path="/Cards/:id" render={() => (<CardsPage/>)}/>
                         <Route path="/Packs" render={() => (<PacksPage/>)}/>
+                        <Route path="/files" render={() => (<Files/>)}/>
                     </Switch>
                 </>
             </div>

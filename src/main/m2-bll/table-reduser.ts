@@ -2,7 +2,7 @@ import {Dispatch} from "redux";
 import {
     AddCardDataType,
     AddPackDataType, DeleteCardDataType,
-    GetCardsDataType,
+    GetCardsDataType, GradeCardDataType,
     TableApi,
     UpdateCardDataType,
     UpdatePackDataType
@@ -174,6 +174,21 @@ export const addCardTC = (data: AddCardDataType) => (dispatch: ThunkDispatch) =>
     })
 }
 
+export const gradeCardTC = (data: GradeCardDataType) => (dispatch: ThunkDispatch) => {
+    setIsLoadingAC(true)
+    TableApi.gradeСard(data).then(res => {
+        console.log(res)
+        TableApi.getCards({cardsPack_id: res.data.updatedGrade.cardsPack_id}).then(res => {
+            dispatch(setIsLoadingAC(false))
+            dispatch(setCardsAC(res.data.cards))
+        }).catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        }).catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
+    })
+}
+
 
 // Action Creators
 
@@ -184,6 +199,7 @@ export const setPacksTotalCountAC = (count: number) => ({type: 'SET-COUNT', coun
 export const setStartPagePaginatorAC = (value: number) => ({type: 'SET-START-VALUE-PR', value} as const)
 export const setEndPagePaginatorAC = (value: number) => ({type: 'SET-END-VALUE-PR', value} as const)
 export const setCurrentPagerAC = (value: number) => ({type: 'SET-CURRENT-PAGE', value} as const)
+
 
 type setCardsActionType = ReturnType<typeof setCardsAC>
 type setPacksActionType = ReturnType<typeof setPacksAC>

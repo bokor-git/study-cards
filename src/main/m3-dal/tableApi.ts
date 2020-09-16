@@ -45,6 +45,10 @@ export const TableApi = {
         const promise = instance.put(`cards/card`,data);
         return promise;
     },
+    gradeСard(data:GradeCardDataType) {
+        const promise = instance.put(`cards/grade`,data);
+        return promise;
+    },
 }
 export type AddPackDataType = {
     cardsPack: {
@@ -108,4 +112,9 @@ export type UpdateCardDataType = {
 export type DeleteCardDataType = {
     cardId: string
     packId: string
+}
+
+export type GradeCardDataType = {
+    grade:number
+    card_id:string
 }

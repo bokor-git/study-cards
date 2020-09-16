@@ -1,7 +1,7 @@
 .Table{
     margin-top: 2%;
     width: 90vw;
-    height: 75vh;
+    height: fit-content;
 }
 .HeaderTable{
     display: flex;
@@ -10,18 +10,24 @@
     text-align: center;
     width: 90vw;
     height: 5vh;
-    border: 1px red solid;
     border-bottom: none;
+    background-color: lavender;
+    font-size: 16px;
+    font-weight: 600;
 }
 .ContentTable{
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 90vw;
-    height: 70vh;
-    border: 1px red solid;
+    height: fit-content;
 }
 .Content{
     display: flex;
     flex-direction: row;
+}
+
+.rowContent {
+background-color: white;
+
 }
