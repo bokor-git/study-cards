@@ -40,6 +40,9 @@ function PackPage() {
         checkAuth(isLoginIn)
         dispatch(getPacksTC(paginatorData.currentPage))
     }, [])
+    const playButton = (id:string) => {
+        history.push(`/play/${id}`)
+    }
 
     const addButton = (name:string) => {
         dispatch(addPackTC({cardsPack: {name:name}}, paginatorData.currentPage))
@@ -47,8 +50,18 @@ function PackPage() {
     const deleteButton = (id: string) => {
         dispatch(deletePackTC(id, paginatorData.currentPage))
     }
-    const updateButton = (id: string, name:string) => {
-        dispatch(updatePackTC({cardsPack: {_id: id,name:name}}, paginatorData.currentPage))
+
+//     _id:string
+//     name?:string
+//     path?:string
+//     grade?:number
+//     shots?:number
+//     rating?:number
+//     deckCover?:string
+// private?:false
+//     type?:string
+    const updateButton = (id: string, name:string, rating:number=0, grade:number=0, deckCover:string="") => {
+        dispatch(updatePackTC({cardsPack: {_id: id,name:name, rating:rating}}, paginatorData.currentPage))
     }
     const cardsButton = (id: string) => {
         history.push(`/Cards/${id}`)
@@ -81,19 +94,22 @@ function PackPage() {
         }
     }
     let [addOpen, setAddModalOpen] = useState(false)
+
     return (<div className={style.Main}>
             {!PacksData ? <div>Загрузка</div> :
                 <>
                     <SimpleModalInput  text={"Do you want to create new pack?"} open={addOpen}
                                          onButtonClick={addButton} setModalOpen={setAddModalOpen}/>:
                     <TableForPacks
-                        columnsName={["Name", "Cards quantity", "Last update", "Url",
+                        columnsName={["Name", "Cards quantity", "Last update", "Grade",
                             <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
                         rowContent={PacksData}
                         buttonsData={[
+                            // @ts-ignore
                             {name: "Update", onClick: updateButton},
                             {name: "Delete", onClick: deleteButton},
-                            {name: "Cards", onClick: cardsButton},]}/>
+                            {name: "Cards", onClick: cardsButton},
+                            {name: "Play", onClick: playButton},]}/>
                     <Paginator maxPages={maxPages}
                                endValue={paginatorData.endPage}
                                startValue={paginatorData.startPage}

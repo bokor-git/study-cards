@@ -32,32 +32,32 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function SimpleModalInput({text, open, setModalOpen, onButtonClick}: { text: string, open: boolean, setModalOpen: (value: boolean) => void, onButtonClick: (question: string, coment:string) => void }) {
+export default function AddNewCardModal({text, open, setModalOpen, onButtonClick}: { text: string, open: boolean, setModalOpen: (value: boolean) => void, onButtonClick: (question: string, answer:string) => void }) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const confirm = (data: any) => {
         setModalOpen(false);
-        onButtonClick(question,comment)
+        onButtonClick(question,answer)
         setQuestion("")
-        setComment("")
+        setAnswer("")
     }
     const cancel = () => {
         setModalOpen(false)
     }
     let [question, setQuestion] = useState<string>("")
-    let [comment, setComment] = useState<string>("")
+    let [answer, setAnswer] = useState<string>("")
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title">{text}</h2>
             <p id="simple-modal-description">Question:</p>
             <TextField value={question} name={"Name"} onChange={(event) => setQuestion(event.currentTarget.value)}/>
-            <p id="simple-modal-description">Comment:</p>
-            <TextField value={comment} name={"Name"} onChange={(event) => setComment(event.currentTarget.value)}/>
+            <p id="simple-modal-description">Answer</p>
+            <TextField value={answer} name={"Name"} onChange={(event) => setAnswer(event.currentTarget.value)}/>
 
             <div style={{display: "flex", justifyContent: "space-around"}}>
                 <Button size={"small"} style={{margin: "5px", height: " 20px"}} variant="contained" color="primary"
                         onClick={confirm}>
-                    Confirm
+                    Add
                 </Button>
                 <Button size={"small"} style={{margin: "5px", height: " 20px"}} variant="contained" color="primary"
                         onClick={cancel}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import Button from "@material-ui/core/Button";
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -42,12 +43,14 @@ export default function SimpleModal({ text,open, setModalOpen, onButtonClick}:{t
             <p id="simple-modal-description">
 
             </p>
-            <button type="button" onClick={confirm}>
-                Yes
-            </button>
-            <button type="button" onClick={cancel}>
-                No
-            </button>
+            <div style={{display:"flex", justifyContent:"space-around"}}>
+                <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={confirm}>
+                    YES
+                </Button>
+                <Button  size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={cancel}>
+                    NO
+                </Button>
+            </div>
         </div>
     );
 

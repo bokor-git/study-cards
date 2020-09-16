@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import CardsPage from "./pages/CardsPage";
 import PacksPage from "./pages/PacksPage";
 import Files from "./pages/Files";
+import Play from "../../features/f3-play/Play";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/Cards/:id" render={() => (<CardsPage/>)}/>
                         <Route path="/Packs" render={() => (<PacksPage/>)}/>
                         <Route path="/files" render={() => (<Files/>)}/>
+                        <Route path="/play/:id" render={() => (<Play/>)}/>
                     </Switch>
                 </>
             </div>

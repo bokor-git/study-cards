@@ -111,7 +111,9 @@ export const deletePackTC = (data: string,currentPage:number) => (dispatch: Thun
 export const updatePackTC = (data: UpdatePackDataType,currentPage:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.updatePack(data).then(res => {
+        debugger
         TableApi.getPacks(currentPage).then(res => {
+            debugger
             dispatch(setPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {

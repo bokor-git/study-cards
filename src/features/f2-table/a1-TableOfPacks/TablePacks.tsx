@@ -4,10 +4,11 @@ import {PackType} from "../../../main/m2-bll/table-reduser";
 import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
+import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 
 type ButtonType = {
     name: string
-    onClick?: (data: any, name?:any) => any
+    onClick?: (data: any, name?:string, rating?:number, grade?:number, deckCover?:string) => any
 
 }
 type columnsNamePropsType = {
@@ -49,13 +50,14 @@ function Buttons(props: ButtonsPropsType) {
                     )
                 case "Update":
                     return (update ?
-                            <SimpleModalInput text={"Do you want to update pack?"} open={update}
-                                // @ts-ignore
-                                              onButtonClick={(name)=>{if (onclick){i.onClick(props.id,name)}}}
+                            <SimpleUpdatePackInput text={"Do you want to update pack?"} open={update}
+                                              onButtonClick={(name, rating:number, grade:number, deckCover:string)=>{if (i.onClick){i.onClick(props.id,name,rating, grade, deckCover)}}}
                                               setModalOpen={setUpdateOpen}/>
                             : <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setUpdateOpen(true)}>{i.name}</Button>
                     )
                 case "Cards":
+                    return (<Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={Handler}>{i.name}</Button>)
+                case "Play":
                     return (<Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={Handler}>{i.name}</Button>)
             }
         })}
@@ -78,7 +80,7 @@ function RowContent(props: RowContentPropsType) {
         {props.Data === null ? <div>Загрузка</div> :
             props.Data.map((i) => {
                 return <ColumnsName
-                    Content={[i.name, i.cardsCount, i.updated, "will be soon...)",
+                    Content={[i.name, i.cardsCount, i.updated, i.grade,
                         <Buttons id={i._id} buttonsData={props.buttonsData}/>]}/>
             })}
     </div>)

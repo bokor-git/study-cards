@@ -16,6 +16,7 @@ import {DeleteCardDataType, GradeCardDataType, UpdateCardDataType} from "../../.
 import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
+import AddNewCardModal from "../../../main/m1-ui/common/Modal/addNewCardModal";
 
 
 function CardPage() {
@@ -35,10 +36,13 @@ function CardPage() {
         checkAuth(isLoginIn)
         dispatch(getCardsTC({cardsPack_id: id}))
     }, [])
-    const addButton = (question:string) => {
-        dispatch(addCardTC({card: {cardsPack_id: id, question:question}}))
+    const addButton = (question:string, answer:string) => {
+        dispatch(addCardTC({card: {cardsPack_id: id, question:question, answer:answer}}))
     }
-    const updateButton = (data: UpdateCardDataType) => {
+    const playButton = (data: UpdateCardDataType) => {
+        dispatch(updateCardTC(data))
+    }
+     const updateButton = (data: UpdateCardDataType) => {
         dispatch(updateCardTC(data))
     }
     const deleteButton = (data: DeleteCardDataType) => {
@@ -50,15 +54,16 @@ function CardPage() {
     let [addCardModalOpen, setAddCardModalOpen]= useState<boolean>(false)
     return <div>
         {!CardsData ? <div>Загрузка</div> : <div>
-           <SimpleModalInput text={"Do you want to create new card?"} open={addCardModalOpen}
+           <AddNewCardModal text={"Do you want to create new card?"} open={addCardModalOpen}
                                  onButtonClick={addButton} setModalOpen={setAddCardModalOpen}/>:
-            <TableForCards  columnsName={["question", "answer", "Grade", "updated", "url",
+            <TableForCards  columnsName={["question", "answer", "Grade", "updated", "Shots",
                 <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={()=>setAddCardModalOpen(true)}>Add new card</Button>]}
                            rowContent={CardsData}
                            buttonsData={[
                                {name: "Update", onClick: updateButton},
                                {name: "Delete", onClick: deleteButton},
-                               {name: "Grade", onClick: gradeButton},]}/>
+                               {name: "Grade", onClick: gradeButton},
+                               {name: "Play", onClick: playButton},]}/>
         </div>}
     </div>
 }
