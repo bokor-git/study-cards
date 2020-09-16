@@ -20,6 +20,9 @@ export const authAPI = {
     },
     authMe() {
         return instance.post('auth/me', {});
+    },
+    updateProfile(data:profileUpdateData) {
+        return instance.put('auth/me', data);
     }
 }
 
@@ -28,6 +31,10 @@ export type LoginParamsType = {
     password: string
     rememberMe: boolean
     email: string;
+}
+export type profileUpdateData = {
+    name:string,
+    avatar:string|File
 }
 
 

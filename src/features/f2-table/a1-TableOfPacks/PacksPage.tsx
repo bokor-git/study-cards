@@ -18,6 +18,7 @@ import TableForPacks from "./TablePacks";
 import Paginator from "../../../main/m1-ui/common/Paginator/Paginator";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
+import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
 
 function PackPage() {
@@ -50,16 +51,6 @@ function PackPage() {
     const deleteButton = (id: string) => {
         dispatch(deletePackTC(id, paginatorData.currentPage))
     }
-
-//     _id:string
-//     name?:string
-//     path?:string
-//     grade?:number
-//     shots?:number
-//     rating?:number
-//     deckCover?:string
-// private?:false
-//     type?:string
     const updateButton = (id: string, name:string, rating:number=0, grade:number=0, deckCover:string="") => {
         dispatch(updatePackTC({cardsPack: {_id: id,name:name, rating:rating}}, paginatorData.currentPage))
     }
@@ -96,7 +87,7 @@ function PackPage() {
     let [addOpen, setAddModalOpen] = useState(false)
 
     return (<div className={style.Main}>
-            {!PacksData ? <div>Загрузка</div> :
+            {!PacksData ? <Preloader/> :
                 <>
                     <SimpleModalInput  text={"Do you want to create new pack?"} open={addOpen}
                                          onButtonClick={addButton} setModalOpen={setAddModalOpen}/>:

@@ -5,6 +5,7 @@ import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
+import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
 type ButtonType = {
     name: string
@@ -77,7 +78,7 @@ function ColumnsName(props: columnsNamePropsType) {
 
 function RowContent(props: RowContentPropsType) {
     return (<div className={style.rowContent}>
-        {props.Data === null ? <div>Загрузка</div> :
+        {props.Data === null ? <Preloader/> :
             props.Data.map((i) => {
                 return <ColumnsName
                     Content={[i.name, i.cardsCount, i.updated, i.grade,

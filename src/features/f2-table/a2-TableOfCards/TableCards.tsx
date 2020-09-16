@@ -3,8 +3,8 @@ import React, {useState} from "react";
 import {CardType} from "../../../main/m2-bll/table-reduser";
 import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
-import SimpleModalGrade from "../../../main/m1-ui/common/Modal/modalGrade";
 import {Button} from "@material-ui/core";
+import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
 type ButtonType = {
     name: string
@@ -20,7 +20,6 @@ type ButtonsPropsType = {
 function Buttons(props: ButtonsPropsType) {
     let [deleteOpen, setDeleteOpen] = useState(false)
     let [update, setUpdateOpen] = useState(false)
-    let [grade, setGradeOpen] = useState(false)
     return (
         <div style={{display:"flex"}}>
             {props.buttonsData.map((i) => {
@@ -34,20 +33,12 @@ function Buttons(props: ButtonsPropsType) {
                                 </>
                         )
                     case "Update":
-                       const UpdateHandler = (question?:string, comment?:string) => {if (onclick) onclick({card: {_id:props.cardId, question:question, comment},packId:props.PackId})}
+                       const UpdateHandler = (question?:string) => {if (onclick) onclick({card: {_id:props.cardId, question:question},packId:props.PackId})}
                         return (<>
                                 <SimpleModalInput text={"Do you want to update pack?"} open={update} onButtonClick={UpdateHandler} setModalOpen={setUpdateOpen}/>
                                 <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setUpdateOpen(true)}>{i.name}</Button>
                                 </>
                         )
-                    // case "Grade":
-                    //     const GradeHandler = (rating:number) => { if (onclick) onclick({card_id:props.cardId, grade:grade})}
-                    //
-                    //     return (<>
-                    //             <SimpleModalGrade text={"Rating"} open={grade} onButtonClick={GradeHandler} setModalOpen={setGradeOpen}/>
-                    //             <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setGradeOpen(true)}>{i.name}</Button>
-                    //         </>
-                    //     )
                 }
             })}
         </div>)
@@ -70,7 +61,7 @@ type RowContentPropsType = {
 }
 function RowContent(props: RowContentPropsType) {
     return (<>
-        {props.Data === null ? <div>Загрузка</div> :
+        {props.Data === null ? <Preloader/> :
             props.Data.map((i) => {
                 return <ColumnsName
                     Content={[i.question, i.answer, i.grade, i.updated,i.shots,

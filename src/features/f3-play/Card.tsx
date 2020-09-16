@@ -51,10 +51,11 @@ type PlayCardPropsType = {
     setCurrentCardNumber: (currentCardNumber: number) => void
     currentCardNumber: number
     gradeButton: (data: GradeCardDataType) => void
+    totalCards: number
 }
 
 
-export default function PlayCard({cardData, setCurrentCardNumber, currentCardNumber, gradeButton}: PlayCardPropsType) {
+export default function PlayCard({cardData,totalCards, setCurrentCardNumber, currentCardNumber, gradeButton}: PlayCardPropsType) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const onGradeButtonPush = (grade: number) => {
@@ -74,7 +75,7 @@ export default function PlayCard({cardData, setCurrentCardNumber, currentCardNum
             <CardHeader
                 title={<Rating name="half-rating-read-small" defaultValue={cardData?.rating} precision={0.1} readOnly/>
                 }
-                subheader={cardData?.created}
+                subheader={<h3>Card:{currentCardNumber+1} from:{totalCards}</h3>}
             />
             <h3>Grade: {cardData?.grade}</h3>
             <CardMedia
@@ -86,7 +87,8 @@ export default function PlayCard({cardData, setCurrentCardNumber, currentCardNum
                     <h1>{cardData?.question}</h1>
             </CardContent>
             <Typography variant="body2" color="textSecondary" component="h3">
-                <h3>Grade:</h3>
+                <h3>How good you know this question?</h3>
+                <h4>From 1 to 5</h4>
             </Typography>
             <ButtonGroup variant="contained" size={"small"} color="primary"
                          aria-label="contained primary button group">

@@ -32,27 +32,24 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function SimpleModalInput({text, open, setModalOpen, onButtonClick}: { text: string, open: boolean, setModalOpen: (value: boolean) => void, onButtonClick: (question: string, coment:string) => void }) {
+export default function SimpleModalInput({text, open, setModalOpen, onButtonClick}: { text: string, open: boolean, setModalOpen: (value: boolean) => void, onButtonClick: (name: string) => void }) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const confirm = (data: any) => {
         setModalOpen(false);
-        onButtonClick(question,comment)
-        setQuestion("")
-        setComment("")
+        onButtonClick(title)
+        setTitle("")
     }
     const cancel = () => {
         setModalOpen(false)
     }
-    let [question, setQuestion] = useState<string>("")
-    let [comment, setComment] = useState<string>("")
+    let [title, setTitle] = useState<string>("")
+
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title">{text}</h2>
-            <p id="simple-modal-description">Question:</p>
-            <TextField value={question} name={"Name"} onChange={(event) => setQuestion(event.currentTarget.value)}/>
-            <p id="simple-modal-description">Comment:</p>
-            <TextField value={comment} name={"Name"} onChange={(event) => setComment(event.currentTarget.value)}/>
+            <p id="simple-modal-description">New title:</p>
+            <TextField style={{width:"100%"}} value={title} name={"Name"} onChange={(event) => setTitle(event.currentTarget.value)}/>
 
             <div style={{display: "flex", justifyContent: "space-around"}}>
                 <Button size={"small"} style={{margin: "5px", height: " 20px"}} variant="contained" color="primary"

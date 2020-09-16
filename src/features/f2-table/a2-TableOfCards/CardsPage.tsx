@@ -13,10 +13,9 @@ import {AppRootStateType} from "../../../main/m2-bll/store";
 import TableForCards from "./TableCards";
 import {isInitializedTC} from "../../../main/m2-bll/profile-reducer";
 import {DeleteCardDataType, GradeCardDataType, UpdateCardDataType} from "../../../main/m3-dal/tableApi";
-import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
-import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import AddNewCardModal from "../../../main/m1-ui/common/Modal/addNewCardModal";
+import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
 
 function CardPage() {
@@ -53,7 +52,7 @@ function CardPage() {
     }
     let [addCardModalOpen, setAddCardModalOpen]= useState<boolean>(false)
     return <div>
-        {!CardsData ? <div>Загрузка</div> : <div>
+        {!CardsData ? <Preloader/> : <div>
            <AddNewCardModal text={"Do you want to create new card?"} open={addCardModalOpen}
                                  onButtonClick={addButton} setModalOpen={setAddCardModalOpen}/>:
             <TableForCards  columnsName={["question", "answer", "Grade", "updated", "Shots",

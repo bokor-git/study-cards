@@ -1,12 +1,13 @@
 import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
-import {authAPI, LoginParamsType} from "../m3-dal/login-api";
+import {authAPI, LoginParamsType, profileUpdateData} from "../m3-dal/login-api";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
 
 export type userDate = {
     email : string
     name : string
+    avatar: string
     isAdmin: boolean
     rememberMe: boolean
     token: string
@@ -24,6 +25,7 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     isLoginIn: false,
     UserData: {
+        avatar:"",
         email : "",
         name : "",
         isAdmin: false,

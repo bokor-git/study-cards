@@ -15,6 +15,7 @@ import {DeleteCardDataType, GradeCardDataType, UpdateCardDataType} from "../../m
 import PlayCard from "./Card";
 import {Link} from "@material-ui/core";
 import {Preloader} from "../../main/m1-ui/common/Preloader/Preloader";
+import Button from "@material-ui/core/Button";
 
 
 
@@ -50,8 +51,8 @@ function Play() {
 
         CardsData ?
             CardsData.length > currentCardNumber ?
-                <PlayCard gradeButton={gradeButton}   cardData={CardsData[currentCardNumber]} setCurrentCardNumber={setCurrentCardNumber}
-                          currentCardNumber={currentCardNumber}/> : <div><h1>Pack finished</h1><Link  onClick={()=> history.push(`/Cards/${CardsData[0].cardsPack_id}`)}>Return to pack</Link></div>
+                <PlayCard totalCards={CardsData.length} gradeButton={gradeButton}   cardData={CardsData[currentCardNumber]} setCurrentCardNumber={setCurrentCardNumber}
+                          currentCardNumber={currentCardNumber}/> : <><h1>Pack finished</h1><div><Button onClick={()=> history.push(`/Cards/${CardsData[0].cardsPack_id}`)}>Return to pack</Button></div></>
             : <><h1>Pack is empty</h1> <Preloader/></>}
 
     </div>
