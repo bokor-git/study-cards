@@ -34,6 +34,7 @@ function PackPage() {
             if (isLoginIn === false) {
                 return <Redirect exact to={'/login'}/>
             }
+
         }
     }
 
@@ -51,7 +52,7 @@ function PackPage() {
     const deleteButton = (id: string) => {
         dispatch(deletePackTC(id, paginatorData.currentPage))
     }
-    const updateButton = (id: string, name:string, rating:number=0, grade:number=0, deckCover:string="") => {
+    const updateButton = (id: string, name?:string, rating:number=0, grade:number=0, deckCover:string="") => {
         dispatch(updatePackTC({cardsPack: {_id: id,name:name, rating:rating}}, paginatorData.currentPage))
     }
     const cardsButton = (id: string) => {
@@ -69,6 +70,7 @@ function PackPage() {
         setStartPagePaginatorAC(maxPages - 4)
         setEndPagePaginatorAC(maxPages)
     }
+
     const goPage = (value: number) => {
         if (value === paginatorData.endPage) {
             dispatch(setStartPagePaginatorAC(value))
@@ -96,7 +98,6 @@ function PackPage() {
                             <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
                         rowContent={PacksData}
                         buttonsData={[
-                            // @ts-ignore
                             {name: "Update", onClick: updateButton},
                             {name: "Delete", onClick: deleteButton},
                             {name: "Cards", onClick: cardsButton},

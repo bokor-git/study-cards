@@ -4,8 +4,6 @@ import Modal from '@material-ui/core/Modal';
 import {TextField} from "@material-ui/core";
 import {Rating} from "@material-ui/lab";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 
 function rand() {
@@ -77,20 +75,6 @@ export default function SimpleUpdatePackInput({text, open, setModalOpen, onButto
             />
             <InputLabel id="demo-simple-select-label">Grade</InputLabel>
             <input value={grade} type="number" onChange={event => setGrade(Number(event.currentTarget.value))}/>
-            {/*<Select*/}
-            {/*    labelId="demo-simple-select-label"*/}
-            {/*    id="demo-simple-select"*/}
-            {/*    value={grade}*/}
-            {/*    onChange={event => setGrade(Number(event.currentTarget.name))}*/}
-            {/*>*/}
-            {/*    <MenuItem value={0}>0</MenuItem>*/}
-            {/*    <MenuItem value={1}>1</MenuItem>*/}
-            {/*    <MenuItem value={2}>2</MenuItem>*/}
-            {/*    <MenuItem value={3}>3</MenuItem>*/}
-            {/*    <MenuItem value={4}>4</MenuItem>*/}
-            {/*    <MenuItem value={5}>5</MenuItem>*/}
-            {/*</Select>*/}
-
             <input type={"file"}/>
           <div style={{display:"flex", justifyContent:"space-around"}}>
               <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={confirm}>

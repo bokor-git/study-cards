@@ -2,7 +2,6 @@ import style from "./css.module.css";
 import React, {useState} from "react";
 import {PackType} from "../../../main/m2-bll/table-reduser";
 import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
-import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
@@ -41,7 +40,6 @@ function Buttons(props: ButtonsPropsType) {
             function Handler() {
                 if (onclick) onclick(props.id)
             }
-
             switch (i.name) {
                 case "Delete":
                     return (deleteOpen ?
