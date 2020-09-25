@@ -35,13 +35,13 @@ function CardPage() {
         checkAuth(isLoginIn)
         dispatch(getCardsTC({cardsPack_id: id}))
     }, [])
-    const addButton = (question:string, answer:string) => {
-        dispatch(addCardTC({card: {cardsPack_id: id, question:question, answer:answer}}))
+    const addButton = (question: string, answer: string) => {
+        dispatch(addCardTC({card: {cardsPack_id: id, question: question, answer: answer}}))
     }
     const playButton = (data: UpdateCardDataType) => {
         dispatch(updateCardTC(data))
     }
-     const updateButton = (data: UpdateCardDataType) => {
+    const updateButton = (data: UpdateCardDataType) => {
         dispatch(updateCardTC(data))
     }
     const deleteButton = (data: DeleteCardDataType) => {
@@ -50,13 +50,18 @@ function CardPage() {
     const gradeButton = (data: GradeCardDataType) => {
         dispatch(gradeCardTC(data))
     }
-    let [addCardModalOpen, setAddCardModalOpen]= useState<boolean>(false)
+    let [addCardModalOpen, setAddCardModalOpen] = useState<boolean>(false)
     return <div>
         {!CardsData ? <Preloader/> : <div>
-           <AddNewCardModal text={"Do you want to create new card?"} open={addCardModalOpen}
-                                 onButtonClick={addButton} setModalOpen={setAddCardModalOpen}/>:
-            <TableForCards  columnsName={["question", "answer", "Grade", "updated", "Shots",
-                <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={()=>setAddCardModalOpen(true)}>Add new card</Button>]}
+            <AddNewCardModal text={"Do you want to create new card?"}
+                             open={addCardModalOpen}
+                             onButtonClick={addButton}
+                             setModalOpen={setAddCardModalOpen}/>:
+            <TableForCards columnsName={["question", "answer", "Grade", "updated", "Shots",
+                <Button size={"small"} style={{margin: "5px", height: " 20px"}}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setAddCardModalOpen(true)}>Add new card</Button>]}
                            rowContent={CardsData}
                            buttonsData={[
                                {name: "Update", onClick: updateButton},

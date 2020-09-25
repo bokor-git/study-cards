@@ -1,9 +1,10 @@
-.Table{
+.Table {
     margin-top: 2%;
     width: 90vw;
     height: fit-content;
 }
-.HeaderTable{
+
+.HeaderTable {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -15,19 +16,27 @@
     font-size: 16px;
     font-weight: 600;
 }
-.ContentTable{
+
+.ContentTable {
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 90vw;
     height: fit-content;
 }
-.Content{
+
+.Content {
     display: flex;
     flex-direction: row;
 }
 
 .rowContent {
-background-color: white;
+    background-color: white;
 
+}
+
+.button {
+    margin: 5px;
+    width: 20px;
+    height: 20px
 }

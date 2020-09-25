@@ -55,16 +55,16 @@ type PlayCardPropsType = {
 }
 
 
-export default function PlayCard({cardData,totalCards, setCurrentCardNumber, currentCardNumber, gradeButton}: PlayCardPropsType) {
+export default function PlayCard(props: PlayCardPropsType) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const onGradeButtonPush = (grade: number) => {
-        if (cardData)
-            gradeButton({
+        if (props.cardData)
+            props.gradeButton({
                 grade: grade,
-                card_id: cardData._id
+                card_id: props.cardData._id
             })
-        setCurrentCardNumber(currentCardNumber + 1)
+        props.setCurrentCardNumber(props.currentCardNumber + 1)
     }
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -73,18 +73,18 @@ export default function PlayCard({cardData,totalCards, setCurrentCardNumber, cur
     return (
         <Card className={classes.root}>
             <CardHeader
-                title={<Rating name="half-rating-read-small" defaultValue={cardData?.rating} precision={0.1} readOnly/>
+                title={<Rating name="half-rating-read-small" defaultValue={props.cardData?.rating} precision={0.1} readOnly/>
                 }
-                subheader={<h3>Card:{currentCardNumber+1} from:{totalCards}</h3>}
+                subheader={<h3>Card:{props.currentCardNumber+1} from:{props.totalCards}</h3>}
             />
-            <h3>Grade: {cardData?.grade}</h3>
+            <h3>Grade: {props.cardData?.grade}</h3>
             <CardMedia
                 className={classes.media}
                 image="https://pbs.twimg.com/profile_images/473506797462896640/_M0JJ0v8.png"
                 title="Paella dish"
             />
             <CardContent>
-                    <h1>{cardData?.question}</h1>
+                    <h1>{props.cardData?.question}</h1>
             </CardContent>
             <Typography variant="body2" color="textSecondary" component="h3">
                 <h3>How good you know this question?</h3>
@@ -115,7 +115,7 @@ export default function PlayCard({cardData,totalCards, setCurrentCardNumber, cur
                 <CardContent>
                     <Typography paragraph>Answer:</Typography>
                     <Typography paragraph>
-                        {cardData?.answer}
+                        {props.cardData?.answer}
                     </Typography>
                 </CardContent>
             </Collapse>

@@ -9,7 +9,7 @@ import HeaderNavbar from "./header/HeaderNavbar";
 import LoginPage from "./pages/LoginPage";
 import CardsPage from "./pages/CardsPage";
 import PacksPage from "./pages/PacksPage";
-import Files from "./pages/Files";
+import Files from "./pages/File/Files";
 import Play from "../../features/f3-play/Play";
 
 function App() {

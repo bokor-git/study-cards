@@ -42,18 +42,18 @@ function PackPage() {
         checkAuth(isLoginIn)
         dispatch(getPacksTC(paginatorData.currentPage))
     }, [])
-    const playButton = (id:string) => {
+    const playButton = (id: string) => {
         history.push(`/play/${id}`)
     }
 
-    const addButton = (name:string) => {
-        dispatch(addPackTC({cardsPack: {name:name}}, paginatorData.currentPage))
+    const addButton = (name: string) => {
+        dispatch(addPackTC({cardsPack: {name: name}}, paginatorData.currentPage))
     }
     const deleteButton = (id: string) => {
         dispatch(deletePackTC(id, paginatorData.currentPage))
     }
-    const updateButton = (id: string, name?:string, rating:number=0, grade:number=0, deckCover:string="") => {
-        dispatch(updatePackTC({cardsPack: {_id: id,name:name, rating:rating}}, paginatorData.currentPage))
+    const updateButton = (id: string, name?: string, rating: number = 0, grade: number = 0, deckCover: string = "") => {
+        dispatch(updatePackTC({cardsPack: {_id: id, name: name, rating: rating}}, paginatorData.currentPage))
     }
     const cardsButton = (id: string) => {
         history.push(`/Cards/${id}`)
@@ -91,11 +91,17 @@ function PackPage() {
     return (<div className={style.Main}>
             {!PacksData ? <Preloader/> :
                 <>
-                    <SimpleModalInput  text={"Do you want to create new pack?"} open={addOpen}
-                                         onButtonClick={addButton} setModalOpen={setAddModalOpen}/>:
+                    <SimpleModalInput text={"Do you want to create new pack?"}
+                                      open={addOpen}
+                                      onButtonClick={addButton}
+                                      setModalOpen={setAddModalOpen}/>:
                     <TableForPacks
                         columnsName={["Name", "Cards quantity", "Last update", "Grade",
-                            <Button size={"small"} style={{margin:"5px", height:" 20px"}} variant="contained" color="primary" onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
+                            <Button size={"small"}
+                                    style={{margin: "5px", height: " 20px"}}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
                         rowContent={PacksData}
                         buttonsData={[
                             {name: "Update", onClick: updateButton},

@@ -6,6 +6,9 @@ import {Button} from "@material-ui/core";
 import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
+export  const buttonStyle = {margin:"5px", width: "20px",height:" 20px"}
+
+
 type ButtonType = {
     name: string
     onClick?: (data: any, name?:string, rating?:number, grade?:number, deckCover?:string) => any
@@ -30,12 +33,15 @@ type TablePropsType = {
 
 function Buttons(props: ButtonsPropsType) {
 
+
     let [deleteOpen, setDeleteOpen] = useState(false)
     let [update, setUpdateOpen] = useState(false)
 
     return (<div style={{display:"flex", width: "fit-content",
         height: "fit-content"}}>
         {props.buttonsData.map((i) => {
+            const onUpdateButtonClick = (name:string, rating:number, grade:number, deckCover:string)=>
+            {if (i.onClick){i.onClick(props.id,name,rating, grade, deckCover)}}
             let onclick = i.onClick
             function Handler() {
                 if (onclick) onclick(props.id)
@@ -43,21 +49,35 @@ function Buttons(props: ButtonsPropsType) {
             switch (i.name) {
                 case "Delete":
                     return (deleteOpen ?
-                            <SimpleModal text={"Do you want to delete pack?"} open={deleteOpen} onButtonClick={Handler}
+                            <SimpleModal text={"Do you want to delete pack?"}
+                                         open={deleteOpen}
+                                         onButtonClick={Handler}
                                          setModalOpen={setDeleteOpen}/>
-                            : <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setDeleteOpen(true)}>{i.name}</Button>
+                            : <Button size={"small"}
+                                      style={buttonStyle}
+                                      variant="contained" color="primary"
+                                      onClick={() => setDeleteOpen(true)}>{i.name}</Button>
                     )
                 case "Update":
                     return (update ?
                             <SimpleUpdatePackInput text={"Do you want to update pack?"} open={update}
-                                              onButtonClick={(name, rating:number, grade:number, deckCover:string)=>{if (i.onClick){i.onClick(props.id,name,rating, grade, deckCover)}}}
+                                              onButtonClick={onUpdateButtonClick}
                                               setModalOpen={setUpdateOpen}/>
-                            : <Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={() => setUpdateOpen(true)}>{i.name}</Button>
+                            : <Button size={"small"}
+                                      style={buttonStyle}
+                                      variant="contained" color="primary"
+                                      onClick={() => setUpdateOpen(true)}>{i.name}</Button>
                     )
                 case "Cards":
-                    return (<Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={Handler}>{i.name}</Button>)
+                    return (<Button size={"small"}
+                                    style={buttonStyle}
+                                    variant="contained" color="primary"
+                                    onClick={Handler}>{i.name}</Button>)
                 case "Play":
-                    return (<Button size={"small"} style={{margin:"5px", width: "20px",height:" 20px"}} variant="contained" color="primary" onClick={Handler}>{i.name}</Button>)
+                    return (<Button size={"small"}
+                                    style={buttonStyle}
+                                    variant="contained" color="primary"
+                                    onClick={Handler}>{i.name}</Button>)
             }
         })}
     </div>)
