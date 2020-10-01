@@ -1,9 +1,7 @@
 import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
-import {authAPI, profileUpdateData} from "../m3-dal/login-api";
+import {authAPI, profileUpdatePhoto} from "../m3-dal/login-api";
 import {setIsLoggedInAC, setUsersDataAC} from "./login-reducer";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
 
@@ -36,8 +34,8 @@ export const isInitializedTC = () => (dispatch: ThunkDispatch) => {
         .catch(error => console.log(error))
 }
 
-export const changeUserDataTC = (data:profileUpdateData) => (dispatch: ThunkDispatch) => {
-    authAPI.updateProfile(data)
+export const changeUserDataTC = (data:profileUpdatePhoto) => (dispatch: ThunkDispatch) => {
+    authAPI.profileUpdatePhoto(data)
         .then(res => {
             dispatch(setUsersDataAC(res.data.updatedUser))
         }).catch((error) => {

@@ -1,20 +1,23 @@
 import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
-import {authAPI, LoginParamsType, profileUpdateData} from "../m3-dal/login-api";
+import {authAPI, LoginParamsType} from "../m3-dal/login-api";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
 
 export type userDate = {
-    email : string
-    name : string
-    avatar: string
-    isAdmin: boolean
-    rememberMe: boolean
-    token: string
-    tokenDeathTime: number
-    __v:number
-    _id: string
-    success:boolean
+    avatar: string ,
+    created:  string | null,
+    email:  string | null,
+    isAdmin: boolean | null
+    name:  string ,
+    publicCardPacksCount: string | null,
+    rememberMe: boolean | null
+    token:  string | null,
+    tokenDeathTime:  string | null,
+    updated:  string | null,
+    verified: boolean | null
+    __v:  string | null,
+    _id:  string ,
 
 }
 
@@ -25,16 +28,19 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     isLoginIn: false,
     UserData: {
-        avatar:"",
-        email : "",
-        name : "",
+        avatar: "",
+        created: null,
+        email: null,
         isAdmin: false,
+        name: "",
+        publicCardPacksCount:null,
         rememberMe: false,
-        token: "",
-        tokenDeathTime: 0,
-        __v: 0,
+        token: null,
+        tokenDeathTime: null,
+        updated: null,
+        verified: false,
+        __v: null,
         _id: "",
-        success: false,
     }
 }
 
@@ -69,8 +75,8 @@ export const setTokenAC = (token: string) =>
 export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
     authAPI.login(data)
         .then(res => {
-            dispatch(setIsLoggedInAC(true))
             dispatch(setUsersDataAC(res.data))
+            dispatch(setIsLoggedInAC(true))
         }).catch((error) => {
         handleServerNetworkError(error, dispatch);
     })

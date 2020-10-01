@@ -21,8 +21,8 @@ export const authAPI = {
     authMe() {
         return instance.post('auth/me', {});
     },
-    updateProfile(data:profileUpdateData) {
-        return instance.put('auth/me', data);
+    profileUpdatePhoto(data:profileUpdatePhoto) {
+        return instance.put('auth/me', {name:data.name,avatar:data.avatar});
     }
 }
 
@@ -32,8 +32,8 @@ export type LoginParamsType = {
     rememberMe: boolean
     email: string;
 }
-export type profileUpdateData = {
-    name:string,
+export type profileUpdatePhoto = {
+    name:string
     avatar:string|File
 }
 

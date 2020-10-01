@@ -25,23 +25,25 @@ function PackPage() {
     const history = useHistory()
     const dispatch = useDispatch();
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
-    const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.packs);
+    const isLoading = useSelector<AppRootStateType, boolean>(state => state.table.isLoading)
+    const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.allPacks);
     const paginatorData = useSelector<AppRootStateType, PaginatorType>(state => state.table.paginator);
+    const [valueSearch,setValueSearch] = useState<string>("")
     let maxPages = Math.ceil(paginatorData.packsCount / 25)
+
     const checkAuth = (isLoginIn: boolean) => {
         if (isLoginIn === false) {
             dispatch(isInitializedTC)
             if (isLoginIn === false) {
                 return <Redirect exact to={'/login'}/>
             }
-
         }
     }
 
     useEffect(() => {
         checkAuth(isLoginIn)
         dispatch(getPacksTC(paginatorData.currentPage))
-    }, [])
+    }, [paginatorData])
     const playButton = (id: string) => {
         history.push(`/play/${id}`)
     }
@@ -60,41 +62,56 @@ function PackPage() {
     }
     const goStart = () => {
         dispatch(setCurrentPagerAC(1))
-        setStartPagePaginatorAC(1)
-        setEndPagePaginatorAC(5)
-        dispatch(getPacksTC(paginatorData.currentPage))
+        dispatch(setStartPagePaginatorAC(1))
+        dispatch(setEndPagePaginatorAC(5))
+        dispatch(getPacksTC(1))
     }
     const goFinish = () => {
         dispatch(setCurrentPagerAC(maxPages))
         dispatch(getPacksTC(paginatorData.currentPage))
-        setStartPagePaginatorAC(maxPages - 4)
-        setEndPagePaginatorAC(maxPages)
+        dispatch(setStartPagePaginatorAC(maxPages - 4))
+        dispatch(setEndPagePaginatorAC(maxPages))
     }
-
+    const searchChangeValue = (e:any) => {
+        setValueSearch(e.currentTarget.value)
+    }
+    const goSearch = (e:any) => {
+        dispatch(getPacksTC(1))
+    }
     const goPage = (value: number) => {
         if (value === paginatorData.endPage) {
+            if(value === maxPages) {dispatch(getPacksTC(value))
+                return}
             dispatch(setStartPagePaginatorAC(value))
             dispatch(setEndPagePaginatorAC(value + 4))
             dispatch(setCurrentPagerAC(value))
-            dispatch(getPacksTC(paginatorData.currentPage))
+            dispatch(getPacksTC(value))
             return
         } else if (value === paginatorData.startPage) {
+            if(value === 1) {dispatch(getPacksTC(value))
+                return}
             dispatch(setStartPagePaginatorAC(value - 4))
             dispatch(setEndPagePaginatorAC(value))
             dispatch(setCurrentPagerAC(value))
-            dispatch(getPacksTC(paginatorData.currentPage))
+            dispatch(getPacksTC(value))
             return
         }
+        dispatch(getPacksTC(value))
     }
     let [addOpen, setAddModalOpen] = useState(false)
-
     return (<div className={style.Main}>
-            {!PacksData ? <Preloader/> :
+            {!PacksData && isLoading ? <Preloader/> :
                 <>
                     <SimpleModalInput text={"Do you want to create new pack?"}
                                       open={addOpen}
                                       onButtonClick={addButton}
-                                      setModalOpen={setAddModalOpen}/>:
+                                      setModalOpen={setAddModalOpen}/>
+                    <div className={style.SearchPanel}>
+                        <div><input value={valueSearch} onChange={searchChangeValue}/><button>Search</button></div>
+                        <div>My Packs<input type="checkbox"/></div>
+                        <div>RangeBar</div>
+                    </div>
+
                     <TableForPacks
                         columnsName={["Name", "Cards quantity", "Last update", "Grade",
                             <Button size={"small"}

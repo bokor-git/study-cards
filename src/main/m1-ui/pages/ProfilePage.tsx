@@ -2,47 +2,42 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../m2-bll/store";
 import {changeUserDataTC, isInitializedTC} from "../../m2-bll/profile-reducer";
-import {CircularProgress, TextField} from "@material-ui/core";
 import {Redirect} from "react-router-dom";
 import {userDate} from "../../m2-bll/login-reducer";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
+import style from "./styleProfilaPage.module.css"
+import TableForProfile from "../../../features/f2-table/a3-TableOfProfile/TableProfile";
+import {getPacksTC, PackType} from "../../m2-bll/table-reduser";
 
 
 function ProfilePage() {
-
-    const {name,email,avatar} = useSelector<AppRootStateType,userDate>((state)=> state.auth.UserData)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.profilePage.isInitialized)
+    const {name, email, avatar, publicCardPacksCount, _id} = useSelector<AppRootStateType, userDate>((state) => state.auth.UserData)
+    const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.myPacks);
     const dispatch = useDispatch();
-    const isLoginIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoginIn);
-    let[newName, setNewName]= useState(name)
-    let[newAvatar, setAvatar]= useState()
-    const updateProfile = ()=>{
-        dispatch(changeUserDataTC({
-            name: newName,
-            // @ts-ignore
-            avatar: newAvatar}))
+    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
+    const checkAuth = (isLoginIn: boolean) => {
+        if (isLoginIn === false) {
+            dispatch(isInitializedTC)
+            if (isLoginIn === false) {
+                return <Redirect exact to={'/login'}/>
+            }
+        }
     }
-    useEffect(()=>{
-        dispatch(isInitializedTC());
-    },[])
-    if(isLoginIn === false){
-        return <Redirect exact to={'/login'}/>
-    }
+    useEffect(() => {
+        checkAuth(isLoginIn)
+        dispatch(getPacksTC("", _id))
+    }, [])
     return (
-        <div>
-            <h2>Name:{name}</h2>
-            <img src={avatar} alt="" style={{width:'300px', height:'200px'}}/>
-            <h2>E-mail: {email}</h2>
-            <hr style={{width:"100%"}}/>
-            <p>New name</p>
-            <TextField value={newName} name={"Name"} onChange={(event) => setNewName(event.currentTarget.value)}/>
-            <p>New avatar(ULR):</p>
-            <TextField value={newAvatar} name={"Name"} onChange={(event) => setAvatar(event.currentTarget.value)}/>
-            <div>
-                <Button style={{margin:"20px"}}  size={"small"}  variant="contained" color="primary" onClick={updateProfile}>
-                    Update Profile Info
-                </Button>
+        <div className={style.MainContainer}>
+            <div className={style.Photo}>
+                <img src={avatar}/>
+            </div>
+            <div className={style.ProfileInfo}>
+                <div className={style.InfoItem}>Name: {name}</div>
+                <div className={style.InfoItem}>Email: {email} </div>
+                <div className={style.InfoItem}>Count of your Packs: {publicCardPacksCount} </div>
+                <div className={style.TableOfPacks}><TableForProfile columnsName={["Name", "Cards", "Grade"]}
+                                                                     buttonsData={[]}
+                                                                     rowContent={PacksData}/></div>
             </div>
         </div>
     );

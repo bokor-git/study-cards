@@ -11,6 +11,7 @@ import CardsPage from "./pages/CardsPage";
 import PacksPage from "./pages/PacksPage";
 import Files from "./pages/File/Files";
 import Play from "../../features/f3-play/Play";
+import SettingsPage from "./pages/SettingPage";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Switch>
                         <Route path={"/login"} render={() => (<LoginPage/>)}/>
                         <Route path="/registration" render={() => (<RegistrationPage/>)}/>
+                        <Route path="/settings" render={() => (<SettingsPage/>)}/>
                         <Route path="/password-reset" render={() => (<PasswordResetPage/>)}/>}
                         <Route path="/password-generation/:id" render={() => (<PasswordGenerationPage/>)}/>
                         <Route path="/password-generation"

@@ -89,7 +89,7 @@ function ColumnsName(props: columnsNamePropsType) {
             return <div style={{
                 width: `calc(90vw/${props.Content.length})`,
                 height: `calc(70vh/25)`
-            }}>{e}</div>
+            }}>{ e.length > 11 ? e.substring(0,10) : e}</div>
         })}
     </div>)
 }

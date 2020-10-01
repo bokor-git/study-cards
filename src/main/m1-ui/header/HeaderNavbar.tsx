@@ -28,7 +28,7 @@ function HeaderNavbar() {
                 <li className={style.menu__group}>
                     <NavLink className={style.menu__link} to="/Packs">Packs</NavLink></li>
                 <li className={style.menu__group}>
-                    <NavLink className={style.menu__link} to="/password-reset">Settings</NavLink></li>
+                    <NavLink className={style.menu__link} to="/settings">Settings</NavLink></li>
                 <li className={style.menu__group}>
                     <NavLink className={style.menu__link} to="/files">Upload Files</NavLink></li>
                 <button onClick={logoutHandler} className={style.menu__link_logout}>Log out</button>
