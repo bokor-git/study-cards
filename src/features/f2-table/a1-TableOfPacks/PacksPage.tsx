@@ -9,7 +9,7 @@ import {
     deletePackTC,
     getPacksTC,
     PackType,
-    PaginatorType,
+    PaginatorType, searchPacksTC,
     setCurrentPagerAC, setEndPagePaginatorAC, setStartPagePaginatorAC,
     updatePackTC
 } from "../../../main/m2-bll/table-reduser";
@@ -19,6 +19,7 @@ import Paginator from "../../../main/m1-ui/common/Paginator/Paginator";
 import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
+import {userDate} from "../../../main/m2-bll/login-reducer";
 
 
 function PackPage() {
@@ -27,8 +28,10 @@ function PackPage() {
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const isLoading = useSelector<AppRootStateType, boolean>(state => state.table.isLoading)
     const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.allPacks);
+    const myPacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.myPacks);
     const paginatorData = useSelector<AppRootStateType, PaginatorType>(state => state.table.paginator);
-    const [valueSearch,setValueSearch] = useState<string>("")
+    const [valueSearch, setValueSearch] = useState<string>("")
+    const {_id} = useSelector<AppRootStateType, userDate>(state => state.auth.UserData);
     let maxPages = Math.ceil(paginatorData.packsCount / 25)
 
     const checkAuth = (isLoginIn: boolean) => {
@@ -42,8 +45,8 @@ function PackPage() {
 
     useEffect(() => {
         checkAuth(isLoginIn)
-        dispatch(getPacksTC(paginatorData.currentPage))
-    }, [paginatorData])
+        dispatch(getPacksTC("", "", 1000))
+    }, [])
     const playButton = (id: string) => {
         history.push(`/play/${id}`)
     }
@@ -63,40 +66,50 @@ function PackPage() {
     const goStart = () => {
         dispatch(setCurrentPagerAC(1))
         dispatch(setStartPagePaginatorAC(1))
-        dispatch(setEndPagePaginatorAC(5))
-        dispatch(getPacksTC(1))
+        dispatch(setEndPagePaginatorAC(maxPages))
     }
     const goFinish = () => {
         dispatch(setCurrentPagerAC(maxPages))
-        dispatch(getPacksTC(paginatorData.currentPage))
+        if (maxPages < 5) return
         dispatch(setStartPagePaginatorAC(maxPages - 4))
         dispatch(setEndPagePaginatorAC(maxPages))
     }
-    const searchChangeValue = (e:any) => {
+    const searchChangeValue = (e: any) => {
         setValueSearch(e.currentTarget.value)
     }
-    const goSearch = (e:any) => {
-        dispatch(getPacksTC(1))
+    const goSearch = (e: any) => {
+        dispatch(searchPacksTC(valueSearch))
     }
     const goPage = (value: number) => {
         if (value === paginatorData.endPage) {
-            if(value === maxPages) {dispatch(getPacksTC(value))
-                return}
+            if (value === maxPages) {
+                dispatch(setCurrentPagerAC(value))
+                return
+            }
             dispatch(setStartPagePaginatorAC(value))
             dispatch(setEndPagePaginatorAC(value + 4))
             dispatch(setCurrentPagerAC(value))
-            dispatch(getPacksTC(value))
             return
         } else if (value === paginatorData.startPage) {
-            if(value === 1) {dispatch(getPacksTC(value))
-                return}
+            if (value === 1) {
+                dispatch(setCurrentPagerAC(value))
+                return
+            }
             dispatch(setStartPagePaginatorAC(value - 4))
             dispatch(setEndPagePaginatorAC(value))
             dispatch(setCurrentPagerAC(value))
-            dispatch(getPacksTC(value))
             return
         }
-        dispatch(getPacksTC(value))
+        dispatch(setCurrentPagerAC(value))
+    }
+    const getAllPacks = () => {
+        dispatch(getPacksTC("", "", 1000))
+        setValueSearch("")
+    }
+    const getMyPacks = (e: any) => {
+        if (e.currentTarget.checked) dispatch(getPacksTC("", _id, 1000))
+        else dispatch(getPacksTC("", "", 1000))
+
     }
     let [addOpen, setAddModalOpen] = useState(false)
     return (<div className={style.Main}>
@@ -107,8 +120,11 @@ function PackPage() {
                                       onButtonClick={addButton}
                                       setModalOpen={setAddModalOpen}/>
                     <div className={style.SearchPanel}>
-                        <div><input value={valueSearch} onChange={searchChangeValue}/><button>Search</button></div>
-                        <div>My Packs<input type="checkbox"/></div>
+                        <button onClick={getAllPacks}>All Packs</button>
+                        <div><input value={valueSearch} onChange={searchChangeValue}/>
+                            <button onClick={goSearch}>Search</button>
+                        </div>
+                        <div>My Packs<input type="checkbox" onChange={getMyPacks}/></div>
                         <div>RangeBar</div>
                     </div>
 
@@ -124,7 +140,9 @@ function PackPage() {
                             {name: "Update", onClick: updateButton},
                             {name: "Delete", onClick: deleteButton},
                             {name: "Cards", onClick: cardsButton},
-                            {name: "Play", onClick: playButton},]}/>
+                            {name: "Play", onClick: playButton},]}
+                        rowsCount={22}
+                        currentPage={paginatorData.currentPage}/>
                     <Paginator maxPages={maxPages}
                                endValue={paginatorData.endPage}
                                startValue={paginatorData.startPage}

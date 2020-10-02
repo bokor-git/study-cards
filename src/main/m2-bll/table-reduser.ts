@@ -51,7 +51,7 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
         case 'SET-COUNT': {
             let CopyState = {...state, ...state.paginator}
             CopyState.paginator.packsCount = action.count
-            return CopyState
+            return {...state, paginator: {...state.paginator, packsCount: action.count}}
         }
         case 'SET-START-VALUE-PR': {
             let CopyState = {...state, ...state.paginator}
@@ -64,9 +64,13 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
             return CopyState
         }
         case 'SET-CURRENT-PAGE': {
-            let CopyState = {...state, ...state.paginator}
-            CopyState.paginator.currentPage = action.value
-            return CopyState
+            return {...state, paginator: {...state.paginator, currentPage: action.value}}
+        }
+        case 'FILTER-FOR SEARCH': {
+            debugger
+            let searchValue = new RegExp(action.matchValue, 'i');
+            let filterPacks = action.data.filter((pack) => pack.name.match(searchValue))
+            return {...state, allPacks: filterPacks, paginator: {...state.paginator, packsCount: filterPacks.length}}
         }
         default:
             return {...state}
@@ -78,16 +82,28 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
 
 type ThunkDispatch = Dispatch<ActionType | SetAppStatusActionType | SetAppErrorActionType>
 
-export const getPacksTC = (currentPage?: string | number, id?: string) => (dispatch: ThunkDispatch) => {
+export const getPacksTC = (currentPage?: string | number, id?: string,pageCount?:number) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
-    TableApi.getPacks(currentPage, id).then(res => {
-        let pack = res.data.cardPacks[0]
-        if (id === pack.user_id) {
-            dispatch(setMyPacksAC(res.data.cardPacks))
-        } else {
-            dispatch(setAllPacksAC(res.data.cardPacks))
-            dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-        }
+    TableApi.getPacks(currentPage, id,pageCount).then(res => {
+        dispatch(setAllPacksAC(res.data.cardPacks))
+        dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
+        // let pack = res.data.cardPacks[0]
+        // if (id === pack.user_id) {
+        //     dispatch(setMyPacksAC(res.data.cardPacks))
+        //     dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
+        // } else {
+        //     dispatch(setAllPacksAC(res.data.cardPacks))
+        //     dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
+        // }
+        dispatch(setIsLoadingAC(false))
+    }).catch((error) => {
+        handleServerNetworkError(error, dispatch)
+    })
+}
+export const searchPacksTC = (matchValue: string) => (dispatch: ThunkDispatch) => {
+    setIsLoadingAC(true)
+    TableApi.getPacks("","",500).then(res => {
+        dispatch(filterForSearchAC(res.data.cardPacks,matchValue))
         dispatch(setIsLoadingAC(false))
     }).catch((error) => {
         handleServerNetworkError(error, dispatch)
@@ -213,8 +229,9 @@ export const setPacksTotalCountAC = (count: number) => ({type: 'SET-COUNT', coun
 export const setStartPagePaginatorAC = (value: number) => ({type: 'SET-START-VALUE-PR', value} as const)
 export const setEndPagePaginatorAC = (value: number) => ({type: 'SET-END-VALUE-PR', value} as const)
 export const setCurrentPagerAC = (value: number) => ({type: 'SET-CURRENT-PAGE', value} as const)
+export const filterForSearchAC = (data: Array<any>,matchValue:string) => ({type: 'FILTER-FOR SEARCH', data,matchValue} as const)
 
-
+type filterForSearchActionType = ReturnType<typeof filterForSearchAC>
 type setCardsActionType = ReturnType<typeof setCardsAC>
 type setAllPacksActionType = ReturnType<typeof setAllPacksAC>
 type setMyPacksActionType = ReturnType<typeof setMyPacksAC>
@@ -225,7 +242,8 @@ type setEndPagePaginatorActionType = ReturnType<typeof setEndPagePaginatorAC>
 type setCurrentPagerActionType = ReturnType<typeof setCurrentPagerAC>
 
 type ActionType = setLoadingActionType | setAllPacksActionType | setCardsActionType | setPacksTotalCountActionType |
-    setStartPagePaginatorActionType | setEndPagePaginatorActionType | setCurrentPagerActionType | setMyPacksActionType
+    setStartPagePaginatorActionType | setEndPagePaginatorActionType | setCurrentPagerActionType | setMyPacksActionType |
+    filterForSearchActionType
 
 
 export type PackType = {

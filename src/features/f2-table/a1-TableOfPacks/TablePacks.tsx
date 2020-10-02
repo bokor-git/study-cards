@@ -5,21 +5,25 @@ import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import {Button} from "@material-ui/core";
 import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../../main/m2-bll/store";
 
-export  const buttonStyle = {margin:"5px", width: "20px",height:" 20px"}
+export const buttonStyle = {margin: "5px", width: "20px", height: " 20px"}
 
 
 type ButtonType = {
     name: string
-    onClick?: (data: any, name?:string, rating?:number, grade?:number, deckCover?:string) => any
+    onClick?: (data: any, name?: string, rating?: number, grade?: number, deckCover?: string) => any
 
 }
 type columnsNamePropsType = {
     Content: Array<any>
 }
 type RowContentPropsType = {
-    Data: Array<PackType> | null
+    Data: Array<PackType> | any
     buttonsData: Array<ButtonType>
+    rowsCount: number
+    currentPage:number
 }
 type ButtonsPropsType = {
     buttonsData: Array<ButtonType>
@@ -29,6 +33,8 @@ type TablePropsType = {
     columnsName: Array<any>
     rowContent: Array<PackType> | null
     buttonsData: Array<ButtonType>
+    rowsCount: number
+    currentPage:number
 }
 
 function Buttons(props: ButtonsPropsType) {
@@ -37,15 +43,22 @@ function Buttons(props: ButtonsPropsType) {
     let [deleteOpen, setDeleteOpen] = useState(false)
     let [update, setUpdateOpen] = useState(false)
 
-    return (<div style={{display:"flex", width: "fit-content",
-        height: "fit-content"}}>
+    return (<div style={{
+        display: "flex", width: "fit-content",
+        height: "fit-content"
+    }}>
         {props.buttonsData.map((i) => {
-            const onUpdateButtonClick = (name:string, rating:number, grade:number, deckCover:string)=>
-            {if (i.onClick){i.onClick(props.id,name,rating, grade, deckCover)}}
+            const onUpdateButtonClick = (name: string, rating: number, grade: number, deckCover: string) => {
+                if (i.onClick) {
+                    i.onClick(props.id, name, rating, grade, deckCover)
+                }
+            }
             let onclick = i.onClick
+
             function Handler() {
                 if (onclick) onclick(props.id)
             }
+
             switch (i.name) {
                 case "Delete":
                     return (deleteOpen ?
@@ -61,8 +74,8 @@ function Buttons(props: ButtonsPropsType) {
                 case "Update":
                     return (update ?
                             <SimpleUpdatePackInput text={"Do you want to update pack?"} open={update}
-                                              onButtonClick={onUpdateButtonClick}
-                                              setModalOpen={setUpdateOpen}/>
+                                                   onButtonClick={onUpdateButtonClick}
+                                                   setModalOpen={setUpdateOpen}/>
                             : <Button size={"small"}
                                       style={buttonStyle}
                                       variant="contained" color="primary"
@@ -89,17 +102,32 @@ function ColumnsName(props: columnsNamePropsType) {
             return <div style={{
                 width: `calc(90vw/${props.Content.length})`,
                 height: `calc(70vh/25)`
-            }}>{ e.length > 11 ? e.substring(0,10) : e}</div>
+            }}>{e}</div>
         })}
     </div>)
 }
 
 function RowContent(props: RowContentPropsType) {
+    let rowData = []
+    let date =""
+    let MaxValue = props.rowsCount
+    if(props.Data){
+        let countRenderItem = (props.Data.length - (( props.rowsCount*props.currentPage)-props.rowsCount))
+        if (countRenderItem < props.rowsCount) MaxValue = countRenderItem
+    }
+    let startValue =( MaxValue * props.currentPage ) - MaxValue
+    let endValue = MaxValue * props.currentPage
+    for (let i = startValue; i < endValue; i++) {
+        if (props.Data) rowData.push(props.Data[i])
+    }
     return (<div className={style.rowContent}>
         {props.Data === null ? <Preloader/> :
-            props.Data.map((i) => {
+            rowData.map((i) => {
+                if (i.updated.length > 11 ) date = i.updated.substring(0, 10)
+                else date = i.updated
+
                 return <ColumnsName
-                    Content={[i.name, i.cardsCount, i.updated, i.grade,
+                    Content={[i.name, i.cardsCount, date, i.grade,
                         <Buttons id={i._id} buttonsData={props.buttonsData}/>]}/>
             })}
     </div>)
@@ -113,7 +141,11 @@ function TableForPacks(props: TablePropsType) {
                 <ColumnsName Content={props.columnsName}/>
             </div>
             <div className={style.ContentTable}>
-                <RowContent Data={props.rowContent} buttonsData={props.buttonsData}/>
+                <RowContent Data={props.rowContent}
+                            buttonsData={props.buttonsData}
+                            rowsCount={props.rowsCount}
+                            currentPage={props.currentPage}
+                />
             </div>
         </div>
     )

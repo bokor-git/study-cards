@@ -11,7 +11,7 @@ import {getPacksTC, PackType} from "../../m2-bll/table-reduser";
 
 function ProfilePage() {
     const {name, email, avatar, publicCardPacksCount, _id} = useSelector<AppRootStateType, userDate>((state) => state.auth.UserData)
-    const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.myPacks);
+    const PacksData = useSelector<AppRootStateType, Array<PackType> | null>(state => state.table.allPacks);
     const dispatch = useDispatch();
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const checkAuth = (isLoginIn: boolean) => {
