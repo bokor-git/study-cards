@@ -13,6 +13,7 @@ import {userDate} from "../../m2-bll/login-reducer";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 import {changeUserDataTC, isInitializedTC} from "../../m2-bll/profile-reducer";
 import {Redirect} from "react-router-dom";
+import {RangeSlider} from "../../../features/f2-table/a4-SearchPanel/DoubleRangeSearch/DoubleRangeSearch";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

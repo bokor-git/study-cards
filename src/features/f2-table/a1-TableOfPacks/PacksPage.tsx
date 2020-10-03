@@ -20,7 +20,7 @@ import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 import {userDate} from "../../../main/m2-bll/login-reducer";
-import {ExampleApp, RangeSlider} from "../a4-SearchPanel/DoubleRangeSearch/DoubleRangeSearch";
+import {RangeSlider} from "../a4-SearchPanel/DoubleRangeSearch/DoubleRangeSearch";
 
 
 function PackPage() {
@@ -126,7 +126,7 @@ function PackPage() {
                             <button onClick={goSearch}>Search</button>
                         </div>
                         <div>My Packs<input type="checkbox" onChange={getMyPacks}/></div>
-                        <div className={style.slider}><ExampleApp/></div>
+                        <div className={style.slider}><RangeSlider/></div>
 
                     </div>
 
