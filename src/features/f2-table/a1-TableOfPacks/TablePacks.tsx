@@ -5,8 +5,6 @@ import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
 import {Button} from "@material-ui/core";
 import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../../main/m2-bll/store";
 
 export const buttonStyle = {margin: "5px", width: "20px", height: " 20px"}
 

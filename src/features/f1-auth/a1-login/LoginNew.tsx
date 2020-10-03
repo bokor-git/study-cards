@@ -71,8 +71,8 @@ export default function LoginNew() {
             }
         },
         initialValues: {
-            email: '',
-            password:'',
+            email: 'Keizak@yandex.ru',
+            password:'s12s12s12',
             rememberMe: false,
         },
         onSubmit: values => {

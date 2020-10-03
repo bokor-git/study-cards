@@ -20,6 +20,7 @@ import SimpleModalInput from "../../../main/m1-ui/common/Modal/modalInput";
 import {Button} from "@material-ui/core";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 import {userDate} from "../../../main/m2-bll/login-reducer";
+import {ExampleApp, RangeSlider} from "../a4-SearchPanel/DoubleRangeSearch/DoubleRangeSearch";
 
 
 function PackPage() {
@@ -32,6 +33,7 @@ function PackPage() {
     const paginatorData = useSelector<AppRootStateType, PaginatorType>(state => state.table.paginator);
     const [valueSearch, setValueSearch] = useState<string>("")
     const {_id} = useSelector<AppRootStateType, userDate>(state => state.auth.UserData);
+    const [valueRange, setValueRange] = useState<any>(0)
     let maxPages = Math.ceil(paginatorData.packsCount / 25)
 
     const checkAuth = (isLoginIn: boolean) => {
@@ -50,7 +52,6 @@ function PackPage() {
     const playButton = (id: string) => {
         history.push(`/play/${id}`)
     }
-
     const addButton = (name: string) => {
         dispatch(addPackTC({cardsPack: {name: name}}, paginatorData.currentPage))
     }
@@ -125,7 +126,8 @@ function PackPage() {
                             <button onClick={goSearch}>Search</button>
                         </div>
                         <div>My Packs<input type="checkbox" onChange={getMyPacks}/></div>
-                        <div>RangeBar</div>
+                        <div className={style.slider}><ExampleApp/></div>
+
                     </div>
 
                     <TableForPacks
