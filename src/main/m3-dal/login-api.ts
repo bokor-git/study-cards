@@ -19,7 +19,8 @@ export const authAPI = {
         return promise;
     },
     authMe() {
-        return instance.post('auth/me', {});
+        const promise = instance.post('auth/me',{},{});
+        return promise
     },
     profileUpdatePhoto(data:profileUpdatePhoto) {
         return instance.put('auth/me', {name:data.name,avatar:data.avatar});

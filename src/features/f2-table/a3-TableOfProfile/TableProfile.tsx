@@ -1,9 +1,6 @@
 import style from "./css.module.css";
 import React, {useState} from "react";
 import {PackType} from "../../../main/m2-bll/table-reduser";
-import SimpleModal from "../../../main/m1-ui/common/Modal/modal";
-import {Button} from "@material-ui/core";
-import SimpleUpdatePackInput from "../../../main/m1-ui/common/Modal/modalInput2";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
 
 export  const buttonStyle = {margin:"5px", width: "20px",height:" 20px"}
@@ -32,11 +29,18 @@ type TablePropsType = {
 }
 
 function ColumnsName(props: columnsNamePropsType) {
+    let TableStyle  = document.getElementById("Table")
+    let TableWidth = ""
+    let TableHeight = ""
+    if (TableStyle) {
+        TableWidth = window.getComputedStyle(TableStyle).width
+        TableHeight = window.getComputedStyle(TableStyle).height
+    }
     return (<div className={style.Content}>
         {props.Content.map((e: string ) => {
             return <div style={{
-                width: `calc(70vh/${props.Content.length})`,
-                height: `calc(70vh/25)`
+                width: `calc(${TableWidth}/${props.Content.length})`,
+                height: `calc(${TableHeight}/10)`
             }}>{ e.length > 11 ? e.substring(0,10) : e}</div>
         })}
     </div>)
@@ -55,12 +59,12 @@ function RowContent(props: RowContentPropsType) {
 
 function TableForProfile(props: TablePropsType) {
     return (
-        <div className={style.Table}>
+        <div className={style.Table} id={"Table"}>
             <div className={style.HeaderTable}>
-                <ColumnsName Content={props.columnsName}/>
+                <ColumnsName Content={props.columnsName} />
             </div>
             <div className={style.ContentTable}>
-                <RowContent Data={props.rowContent} buttonsData={props.buttonsData}/>
+                <RowContent Data={props.rowContent} buttonsData={props.buttonsData} />
             </div>
         </div>
     )

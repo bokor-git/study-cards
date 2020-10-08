@@ -3,56 +3,61 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     CardType,
     getCardsTC,
-    gradeCardTC,
 } from "../../main/m2-bll/table-reduser";
-import {Redirect, useHistory, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {AppRootStateType} from "../../main/m2-bll/store";
-import {isInitializedTC} from "../../main/m2-bll/profile-reducer";
-import {GradeCardDataType} from "../../main/m3-dal/tableApi";
-import PlayCard from "./Card";
+import style from "./css.module.css"
 import {Preloader} from "../../main/m1-ui/common/Preloader/Preloader";
-import Button from "@material-ui/core/Button";
+import {CardsControlButtons} from "./CardsControlButtons";
+import {CardsSideQ} from "./CardsSideQ";
 
 
 function Play() {
     const dispatch = useDispatch();
     const {id} = useParams()
-    const history = useHistory()
-    const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const CardsData = useSelector<AppRootStateType, Array<CardType> | null>(state => state.table.cards);
 
+
     useEffect(() => {
-        checkAuth(isLoginIn)
         dispatch(getCardsTC({cardsPack_id: id}))
     }, [])
-
-
-    const checkAuth = (isLoginIn: boolean) => {
-        if (isLoginIn === false) {
-            dispatch(isInitializedTC)
-            if (isLoginIn === false) {
-                return <Redirect exact to={'/login'}/>
-            }
+    const distributionCardOfGrade = () => {
+        const a = Math.round(Math.random() * (100 - 1) + 1)
+        if (a >= 1 && a <= 40) {
+            return 1
+        } else if (a >= 41 && a <= 70) {
+            return 2
+        } else if (a >= 71 && a <= 85) {
+            return 3
+        } else if (a >= 86 && a <= 95) {
+            return 4
+        } else if (a >= 96 && a <= 100) {
+            return 5
         }
+        else {return 1}
     }
+    const currentCardForDraw = (rollGrade:() => 1|2|3|4|5, data: Array<CardType>):CardType => {
+        let cards:Array<any> = []
+        while (cards.length < 1)
+        {
+            let grade  = rollGrade()
+            cards = data.filter((card) => {
+                if (Math.round(card.grade) === grade) return card
+            })
 
-    const gradeButton = (data: GradeCardDataType) => {
-        dispatch(gradeCardTC(data))
+        }
+            if (cards.length === 1) {return cards[0]}
+            const a = Math.round(Math.random() * (cards.length - 2) + 1)
+            return cards[a]
     }
-
-    const [currentCardNumber, setCurrentCardNumber] = useState<number>(0)
-
-    return <div>{
-
-        CardsData ?
-            CardsData.length > currentCardNumber ?
-                <PlayCard totalCards={CardsData.length} gradeButton={gradeButton}
-                          cardData={CardsData[currentCardNumber]} setCurrentCardNumber={setCurrentCardNumber}
-                          currentCardNumber={currentCardNumber}/> : <><h1>Pack finished</h1>
-                    <div><Button onClick={() => history.push(`/Cards/${CardsData[0].cardsPack_id}`)}>Return to pack</Button>
-                    </div>
-                </>
-            : <><h1>Pack is empty</h1> <Preloader/></>}
+    let card = null
+    if(CardsData) card = currentCardForDraw(distributionCardOfGrade,CardsData?CardsData:[])
+    return <div className={style.Content}>
+        {CardsData && card ?
+            <>
+                <div className={style.CardsQuestion}><CardsSideQ currentCard={card}/></div>
+                <div className={style.CardsGrade}><CardsControlButtons cardId={card._id}/></div>
+            </> : <Preloader/>}
 
     </div>
 

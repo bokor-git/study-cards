@@ -6,22 +6,55 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-self: flex-start;
-    border:1px solid red;
     width: 55vh;
     height: 55vh;
-    margin:5vh;
 }
 .Photo img{
-    width: 55vh;
-    height: 55vh;
+    width: 25vw;
+    height: 50vh;
 }
 .ProfileInfo{
-    width: 70vh;
+    width: 40vw;
     height: 60vh;
     margin:5vh;
 }
 .InfoItem{
     text-align: center;
     height: 5vh;
+}
+@media (max-width: 1200px){
+}
+@media (max-width: 992px){
+    .MainContainer{
+        display: flex;
+        flex-direction: column;
+    }
+    .Photo{
+        align-items: center;
+    }
+    .Photo img{
+        width: 30vh;
+        height: 30vh;
+    }
+}
+@media (max-width: 760px){
+    .MainContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .Photo{
+        align-items: center;
+        width: 30vh;
+        height: 30vh;
+    }
+    .Photo img{
+        width: 30vh;
+        height: 30vh;
+    }
+    .ProfileInfo{
+        width: 90vw;
+        height: 60vh;
+        margin:5vh;
+    }
 }

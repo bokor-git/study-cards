@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import style from "./css.module.css";
-import { setStartPagePaginatorActionType } from "../../../m2-bll/table-reduser";
 
 type PaginatorPropsType ={
     maxPages: number

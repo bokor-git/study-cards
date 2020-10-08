@@ -9,11 +9,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
-import {userDate} from "../../m2-bll/login-reducer";
+import {userDate} from "../../m2-bll/auth-reducer";
 import {Preloader} from "../../../main/m1-ui/common/Preloader/Preloader";
-import {changeUserDataTC, isInitializedTC} from "../../m2-bll/profile-reducer";
-import {Redirect} from "react-router-dom";
-import {RangeSlider} from "../../../features/f2-table/a4-SearchPanel/DoubleRangeSearch/DoubleRangeSearch";
+import {changeUserDataTC} from "../../m2-bll/profile-reducer";
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -36,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SettingsPage() {
-
     const classes = useStyles();
     let dispatch = useDispatch()
     const loading = useSelector<AppRootStateType, boolean>(state => state.passwordResetPage.loading)
@@ -63,10 +61,6 @@ function SettingsPage() {
             dispatch(changeUserDataTC({name: values.name, avatar: values.avatar}))
         },
     });
-
-    if (isLoginIn === false) {
-        return <Redirect exact to={'/login'}/>
-    }
     return (loading ? <Preloader/> :
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>

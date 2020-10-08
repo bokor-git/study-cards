@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {SetAppErrorActionType, SetAppStatusActionType} from "./app-reducer";
 import {authAPI, profileUpdatePhoto} from "../m3-dal/login-api";
-import {setIsLoggedInAC, setUsersDataAC} from "./login-reducer";
+import {authMeTC, setIsLoggedInAC, setUsersDataAC} from "./auth-reducer";
 import {handleServerNetworkError} from "../m1-ui/utils/error-utils";
 
 
@@ -11,8 +11,6 @@ const initialState: InitialStateType = {
 
 export const ProfileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case'SET-INITIALIZED':
-            return {...state, isInitialized: action.isInitialized}
         default:
             return state
     }
@@ -20,19 +18,7 @@ export const ProfileReducer = (state: InitialStateType = initialState, action: A
 
 // actions
 
-export const setInitializedAC = (isInitialized: boolean) =>
-    ({type: 'SET-INITIALIZED', isInitialized} as const)
-
-
-// thunks
-export const isInitializedTC = () => (dispatch: ThunkDispatch) => {
-    authAPI.authMe().then(res => {
-        dispatch(setIsLoggedInAC(true))
-        dispatch(setInitializedAC(true))
-        dispatch(setUsersDataAC(res.data))
-    })
-        .catch(error => console.log(error))
-}
+// thunk
 
 export const changeUserDataTC = (data:profileUpdatePhoto) => (dispatch: ThunkDispatch) => {
     authAPI.profileUpdatePhoto(data)
@@ -48,7 +34,6 @@ export const changeUserDataTC = (data:profileUpdatePhoto) => (dispatch: ThunkDis
 
 type ActionsType =
     | ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setInitializedAC>
     | ReturnType<typeof setUsersDataAC>
 type InitialStateType = {
     isInitialized: boolean,

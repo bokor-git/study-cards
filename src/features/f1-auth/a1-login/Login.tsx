@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
-import {loginTC} from "../../../main/m2-bll/login-reducer";
+import {loginTC} from "../../../main/m2-bll/auth-reducer";
 import {NavLink, Redirect} from "react-router-dom";
 import {
     Button,

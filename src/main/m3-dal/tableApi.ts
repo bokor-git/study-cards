@@ -13,66 +13,82 @@ const instance = axios.create({
 
 
 export const TableApi = {
-    getPacks(page?:string | number,id?:string,pageCount?:number) {
-        const promise = instance.get(`cards/pack?&page=${page?page:""}&pageCount=${pageCount?pageCount:"25"}&user_id=${ id ? id : ""}` );
+    getPacks(data: GetPacksDataType) {
+        const promise = instance.get(`cards/pack?\
+&packName=${data.packName ? data.packName : ""}\
+&min=${data.min ? data.min : ""}\
+&max=${data.max ? data.max : ""}\
+&sortPacks=${data.sortPacks ? data.sortPacks : ""}\
+&page=${data.page ? data.page : ""}\
+&pageCount=${data.pageCount ? data.pageCount : "25"}\
+&user_id=${data.user_id ? data.user_id : ""}`);
         return promise;
     },
-    addPack(data:AddPackDataType) {
-        const promise = instance.post('cards/pack',data);
+    addPack(data: AddPackDataType) {
+        const promise = instance.post('cards/pack', data);
         return promise;
     },
-    deletePack(data:string) {
+    deletePack(data: string) {
         const promise = instance.delete(`cards/pack?id=${data}`);
         return promise;
     },
-    updatePack(data:UpdatePackDataType) {
-        const promise = instance.put('cards/pack',data );
+    updatePack(data: UpdatePackDataType) {
+        const promise = instance.put('cards/pack', data);
         return promise;
     },
-    getCards(data:GetCardsDataType) {
-        const promise = instance.get(`cards/card?&cardsPack_id=${data.cardsPack_id}&pageCount=100` );
+    getCards(data: GetCardsDataType) {
+        const promise = instance.get(`cards/card?&cardsPack_id=${data.cardsPack_id}&pageCount=100`);
         return promise;
     },
-    addCard(data:AddCardDataType) {
-        const promise = instance.post('cards/card',data);
+    addCard(data: AddCardDataType) {
+        const promise = instance.post('cards/card', data);
         return promise;
     },
-    deleteСard(data:string) {
+    deleteСard(data: string) {
         const promise = instance.delete(`cards/card?id=${data}`);
         return promise;
     },
-    updateСard(data:UpdateCardDataType) {
-        const promise = instance.put(`cards/card`,data);
+    updateСard(data: UpdateCardDataType) {
+        const promise = instance.put(`cards/card`, data);
         return promise;
     },
-    gradeСard(data:GradeCardDataType) {
-        const promise = instance.put(`cards/grade`,data);
+    gradeСard(data: GradeCardDataType) {
+        const promise = instance.put(`cards/grade`, data);
         return promise;
     },
 }
+export type GetPacksDataType = {
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
+}
 export type AddPackDataType = {
     cardsPack: {
-        name?:string
-        path?:string
-        grade?:number
-        shots?:number
-        rating?:number
-        deckCover?:string
-        private?:false
-        type?:string
+        name?: string
+        path?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        deckCover?: string
+        private?: false
+        type?: string
     }
 }
 export type UpdatePackDataType = {
     cardsPack: {
-        _id:string
-        name?:string
-        path?:string
-        grade?:number
-        shots?:number
-        rating?:number
-        deckCover?:string
-        private?:false
-        type?:string
+        _id: string
+        name?: string
+        path?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        deckCover?: string
+        private?: false
+        type?: string
     }
 }
 export type GetCardsDataType = {
@@ -106,7 +122,7 @@ export type UpdateCardDataType = {
         question?: string
         comments?: string
     }
-    packId:string
+    packId: string
 
 }
 export type DeleteCardDataType = {
@@ -115,6 +131,6 @@ export type DeleteCardDataType = {
 }
 
 export type GradeCardDataType = {
-    grade:number
-    card_id:string
+    grade: number
+    card_id: string
 }

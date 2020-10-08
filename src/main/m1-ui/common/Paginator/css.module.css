@@ -4,7 +4,7 @@
     flex-direction: column;
 }
 .Pagination{
-    margin-top: 10px;
+    margin-top: -3vh;
     align-self: center;
     height: 20px;
     width: 300px;

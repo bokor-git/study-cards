@@ -11,7 +11,6 @@ import {
 import {Redirect, useParams} from 'react-router-dom'
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import TableForCards from "./TableCards";
-import {isInitializedTC} from "../../../main/m2-bll/profile-reducer";
 import {DeleteCardDataType, GradeCardDataType, UpdateCardDataType} from "../../../main/m3-dal/tableApi";
 import {Button} from "@material-ui/core";
 import AddNewCardModal from "../../../main/m1-ui/common/Modal/addNewCardModal";
@@ -23,16 +22,7 @@ function CardPage() {
     const {id} = useParams()
     const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoginIn);
     const CardsData = useSelector<AppRootStateType, Array<CardType> | null>(state => state.table.cards);
-    const checkAuth = (isLoginIn: boolean) => {
-        if (isLoginIn === false) {
-            dispatch(isInitializedTC)
-            if (isLoginIn === false) {
-                return <Redirect exact to={'/login'}/>
-            }
-        }
-    }
     useEffect(() => {
-        checkAuth(isLoginIn)
         dispatch(getCardsTC({cardsPack_id: id}))
     }, [])
     const addButton = (question: string, answer: string) => {

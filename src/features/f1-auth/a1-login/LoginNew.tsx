@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,13 +11,12 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import {AppRootStateType} from "../../../main/m2-bll/store";
 import {useFormik} from "formik";
-import {loginTC} from "../../../main/m2-bll/login-reducer";
+import {isInitializedTC, loginTC} from "../../../main/m2-bll/auth-reducer";
 import {NavLink, Redirect} from "react-router-dom";
 import {ErrorSnackbar} from "../../../main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
-import {FormGroup} from "@material-ui/core";
 
 function Copyright() {
     return (
@@ -56,7 +55,6 @@ export default function LoginNew() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const isLoginIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoginIn);
-
     const formik = useFormik({
         validate:(values)=>{
             if (!values.email){
@@ -79,78 +77,78 @@ export default function LoginNew() {
             dispatch(loginTC(values));
         },
     });
-
-    if(isLoginIn === true){
+    if(isLoginIn){
         return <Redirect to={'/profile'}/>
     }
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-                <form onSubmit={formik.handleSubmit}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="email"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        label="Email"
-                        margin="normal"
-                        {...formik.getFieldProps('email')}
-                    />
-                    {formik.errors.email ? <div>{formik.errors.email}</div> : null}
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        id="password"
-                        type="password"
-                        {...formik.getFieldProps('password')}
-                    />
-                    {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-                    <FormControlLabel
-                        label={'Remember me'}
-                        control={<Checkbox color={"primary"}/>}
-                        {...formik.getFieldProps('rememberMe')}
-                        checked={formik.values.rememberMe}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <NavLink to={"/password-reset"} >
-                                Forgot password?
-                            </NavLink>
+
+    return(<div><Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <form onSubmit={formik.handleSubmit}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="email"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            label="Email"
+                            margin="normal"
+                            {...formik.getFieldProps('email')}
+                        />
+                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            id="password"
+                            type="password"
+                            {...formik.getFieldProps('password')}
+                        />
+                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                        <FormControlLabel
+                            label={'Remember me'}
+                            control={<Checkbox color={"primary"}/>}
+                            {...formik.getFieldProps('rememberMe')}
+                            checked={formik.values.rememberMe}
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <NavLink to={"/password-reset"} >
+                                    Forgot password?
+                                </NavLink>
+                            </Grid>
+                            <Grid item>
+                                <NavLink to={"/registration"}>
+                                    {"Don't have an account? Sign Up"}
+                                </NavLink>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <NavLink to={"/registration"}>
-                                {"Don't have an account? Sign Up"}
-                            </NavLink>
-                        </Grid>
-                    </Grid>
-                </form>
-            </div>
-            <Box mt={8}>
-                <Copyright />
-            </Box>
-            <ErrorSnackbar/>
-        </Container>
+                    </form>
+                </div>
+                <Box mt={8}>
+                    <Copyright />
+                </Box>
+                <ErrorSnackbar/>
+            </Container>
+        </div>
     );
 }

@@ -22,10 +22,12 @@ export type userDate = {
 }
 
 type InitialStateType = {
+    isInitialized:boolean,
     isLoginIn: boolean,
     UserData: userDate
 }
 const initialState: InitialStateType = {
+    isInitialized: false,
     isLoginIn: false,
     UserData: {
         avatar: "",
@@ -53,6 +55,8 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
             return {...state, isLoginIn: action.value}
         case 'SET-USER-DATA-IN':
             return {...state, UserData: action.Userdata}
+        case'SET-INITIALIZED':
+            return {...state, isInitialized: action.isInitialized}
 
         default:
             return state
@@ -67,9 +71,8 @@ export const setUsersDataAC = (Userdata: userDate) =>
     ({type: 'SET-USER-DATA-IN', Userdata} as const)
 export const setIsLogoutInAC = (value: boolean) =>
     ({type: 'SET-IS-LOGOUT-IN', value} as const)
-export const setTokenAC = (token: string) =>
-    ({type: 'SET-IS-LOGIN-IN', token} as const)
-
+export const setInitializedAC = (isInitialized: boolean) =>
+    ({type: 'SET-INITIALIZED', isInitialized} as const)
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: ThunkDispatch) => {
@@ -90,6 +93,27 @@ export const logoutTC = () => (dispatch: ThunkDispatch) => {
         handleServerNetworkError(error, dispatch);
     })
 }
+export const authMeTC = () => (dispatch: ThunkDispatch) => {
+    authAPI.authMe()
+        .then(res => {
+                    dispatch(setUsersDataAC(res.data))
+                    dispatch(setIsLoggedInAC(true))
+            }).catch((e) => {
+        dispatch(setIsLoggedInAC(false))
+    })
+}
+export const isInitializedTC = () => (dispatch: any) => {
+    authAPI.authMe()
+    .then(res => {
+        dispatch(setUsersDataAC(res.data))
+        dispatch(setIsLoggedInAC(true))
+        dispatch(setInitializedAC(true))
+    }).catch((e) => {
+        dispatch(setIsLoggedInAC(false))
+        dispatch(setInitializedAC(true))
+    })
+    dispatch(setInitializedAC(true))
+}
 
 // types
 
@@ -98,6 +122,7 @@ type ActionsType =
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setUsersDataAC>
     | ReturnType<typeof setIsLogoutInAC>
+    | ReturnType<typeof setInitializedAC>
 
 
 

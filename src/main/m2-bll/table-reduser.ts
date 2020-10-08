@@ -2,7 +2,7 @@ import {Dispatch} from "redux";
 import {
     AddCardDataType,
     AddPackDataType, DeleteCardDataType,
-    GetCardsDataType, GradeCardDataType,
+    GetCardsDataType, GetPacksDataType, GradeCardDataType,
     TableApi,
     UpdateCardDataType,
     UpdatePackDataType
@@ -82,37 +82,20 @@ export const tableReducer = (state = initialState, action: ActionType): StateTyp
 
 type ThunkDispatch = Dispatch<ActionType | SetAppStatusActionType | SetAppErrorActionType>
 
-export const getPacksTC = (currentPage?: string | number, id?: string,pageCount?:number) => (dispatch: ThunkDispatch) => {
+export const getPacksTC = (data:GetPacksDataType) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
-    TableApi.getPacks(currentPage, id,pageCount).then(res => {
+    TableApi.getPacks(data).then(res => {
         dispatch(setAllPacksAC(res.data.cardPacks))
         dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-        // let pack = res.data.cardPacks[0]
-        // if (id === pack.user_id) {
-        //     dispatch(setMyPacksAC(res.data.cardPacks))
-        //     dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-        // } else {
-        //     dispatch(setAllPacksAC(res.data.cardPacks))
-        //     dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-        // }
         dispatch(setIsLoadingAC(false))
     }).catch((error) => {
         handleServerNetworkError(error, dispatch)
     })
 }
-export const searchPacksTC = (matchValue: string) => (dispatch: ThunkDispatch) => {
-    setIsLoadingAC(true)
-    TableApi.getPacks("","",500).then(res => {
-        dispatch(filterForSearchAC(res.data.cardPacks,matchValue))
-        dispatch(setIsLoadingAC(false))
-    }).catch((error) => {
-        handleServerNetworkError(error, dispatch)
-    })
-}
-export const addPackTC = (data: AddPackDataType, currentPage: number) => (dispatch: ThunkDispatch) => {
+export const addPackTC = (data: AddPackDataType, getData: GetPacksDataType) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.addPack(data).then(res => {
-        TableApi.getPacks(currentPage).then(res => {
+        TableApi.getPacks(getData).then(res => {
             dispatch(setAllPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {
@@ -122,10 +105,10 @@ export const addPackTC = (data: AddPackDataType, currentPage: number) => (dispat
         handleServerNetworkError(error, dispatch)
     })
 }
-export const deletePackTC = (data: string, currentPage: number) => (dispatch: ThunkDispatch) => {
+export const deletePackTC = (data: string, getData: GetPacksDataType) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.deletePack(data).then(res => {
-        TableApi.getPacks(currentPage).then(res => {
+        TableApi.getPacks(getData).then(res => {
             dispatch(setAllPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
         }).catch((error) => {
@@ -135,11 +118,11 @@ export const deletePackTC = (data: string, currentPage: number) => (dispatch: Th
         handleServerNetworkError(error, dispatch)
     })
 }
-export const updatePackTC = (data: UpdatePackDataType, currentPage: number) => (dispatch: ThunkDispatch) => {
+export const updatePackTC = (data: UpdatePackDataType, getData: GetPacksDataType) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.updatePack(data).then(res => {
         debugger
-        TableApi.getPacks(currentPage).then(res => {
+        TableApi.getPacks(getData).then(res => {
             debugger
             dispatch(setAllPacksAC(res.data.cardPacks))
             dispatch(setIsLoadingAC(false))
@@ -156,8 +139,8 @@ export const getCardsTC = (data: GetCardsDataType) => (dispatch: ThunkDispatch) 
     setIsLoadingAC(true)
     TableApi.getCards(data)
         .then(res => {
-            dispatch(setIsLoadingAC(false))
             dispatch(setCardsAC(res.data.cards))
+            dispatch(setIsLoadingAC(false))
         }).catch((error) => {
         handleServerNetworkError(error, dispatch)
     })
@@ -206,7 +189,6 @@ export const addCardTC = (data: AddCardDataType) => (dispatch: ThunkDispatch) =>
 export const gradeCardTC = (data: GradeCardDataType) => (dispatch: ThunkDispatch) => {
     setIsLoadingAC(true)
     TableApi.gradeСard(data).then(res => {
-        console.log(res)
         TableApi.getCards({cardsPack_id: res.data.updatedGrade.cardsPack_id}).then(res => {
             dispatch(setIsLoadingAC(false))
             dispatch(setCardsAC(res.data.cards))
@@ -284,4 +266,5 @@ export type CardType = {
     updated: string
     __v: number
     _id: string
+    number?: number
 }

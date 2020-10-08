@@ -95,32 +95,39 @@ function Buttons(props: ButtonsPropsType) {
 }
 
 function ColumnsName(props: columnsNamePropsType) {
+    let TableStyle  = document.getElementById("Table")
+    let TableWidth = ""
+    let TableHeight = ""
+    if (TableStyle) {
+        TableWidth = window.getComputedStyle(TableStyle).width
+        TableHeight = window.getComputedStyle(TableStyle).height
+    }
     return (<div className={style.Content}>
         {props.Content.map((e: any) => {
             return <div style={{
-                width: `calc(90vw/${props.Content.length})`,
-                height: `calc(70vh/25)`
+                width: `calc(${TableWidth}/${props.Content.length})`,
+                height: `calc(${TableHeight}/25)`
             }}>{e}</div>
         })}
     </div>)
 }
 
 function RowContent(props: RowContentPropsType) {
-    let rowData = []
+    // let rowData = []
     let date =""
-    let MaxValue = props.rowsCount
-    if(props.Data){
-        let countRenderItem = (props.Data.length - (( props.rowsCount*props.currentPage)-props.rowsCount))
-        if (countRenderItem < props.rowsCount) MaxValue = countRenderItem
-    }
-    let startValue =( MaxValue * props.currentPage ) - MaxValue
-    let endValue = MaxValue * props.currentPage
-    for (let i = startValue; i < endValue; i++) {
-        if (props.Data) rowData.push(props.Data[i])
-    }
+    // let MaxValue = props.rowsCount
+    // if(props.Data){
+    //     let countRenderItem = (props.Data.length - (( props.rowsCount*props.currentPage)-props.rowsCount))
+    //     if (countRenderItem < props.rowsCount) MaxValue = countRenderItem
+    // }
+    // let startValue =( MaxValue * props.currentPage ) - MaxValue
+    // let endValue = MaxValue * props.currentPage
+    // for (let i = startValue; i < endValue; i++) {
+    //     if (props.Data) rowData.push(props.Data[i])
+    // }
     return (<div className={style.rowContent}>
         {props.Data === null ? <Preloader/> :
-            rowData.map((i) => {
+            props.Data.map((i:PackType ) => {
                 if (i.updated.length > 11 ) date = i.updated.substring(0, 10)
                 else date = i.updated
 
@@ -134,7 +141,7 @@ function RowContent(props: RowContentPropsType) {
 
 function TableForPacks(props: TablePropsType) {
     return (
-        <div className={style.Table}>
+        <div className={style.Table} id={"Table"}>
             <div className={style.HeaderTable}>
                 <ColumnsName Content={props.columnsName}/>
             </div>
