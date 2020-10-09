@@ -158,7 +158,7 @@ function PackPage() {
                                     style={{margin: "5px", height: " 20px"}}
                                     variant="contained"
                                     color="primary"
-                                    onClick={() => setAddModalOpen(true)}>Add new pack</Button>]}
+                                    onClick={() => setAddModalOpen(true)}>New</Button>]}
                         rowContent={PacksData}
                         buttonsData={[
                             {name: "Update", onClick: updateButton},

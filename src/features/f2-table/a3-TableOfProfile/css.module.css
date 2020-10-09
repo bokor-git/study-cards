@@ -39,3 +39,10 @@
     width: 20px;
     height: 20px
 }
+@media (max-width: 1200px){
+    .Table {
+        width:100%;
+        height: 35vh;
+        overflow-y: scroll;
+    }
+}

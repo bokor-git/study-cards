@@ -43,7 +43,8 @@ function Buttons(props: ButtonsPropsType) {
 
     return (<div style={{
         display: "flex", width: "fit-content",
-        height: "fit-content"
+        height: "fit-content",alignItems: "center",
+        justifyContent:" center"
     }}>
         {props.buttonsData.map((i) => {
             const onUpdateButtonClick = (name: string, rating: number, grade: number, deckCover: string) => {

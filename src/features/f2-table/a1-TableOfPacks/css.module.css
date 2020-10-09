@@ -41,11 +41,13 @@
     width: 20px;
     height: 20px
 }
-.SearchPanel{
+
+.SearchPanel {
     display: flex;
     flex-direction: column;
 }
-.desktopPanel{
+
+.desktopPanel {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -56,11 +58,13 @@
     align-items: center;
     justify-content: space-between;
 }
-.slider{
-    color :black  !important;
+
+.slider {
+    color: black !important;
     width: 200px;
 }
-.refresh{
+
+.refresh {
     border: none;
     outline: none;
     height: 3vh;
@@ -68,35 +72,48 @@
     background: url("https://image.flaticon.com/icons/png/512/98/98865.png") no-repeat;
     background-size: 100%;
 }
-.mobilePanel{
+
+.mobilePanel {
     display: none;
 }
-@media (max-width: 1200px){
-    .Container{
+
+@media (max-width: 1200px) {
+    .Container {
         max-width: 970px;
     }
-    .Table{
+
+    .Table {
+        height: 65vh;
+        width: 95vw;
+        font-size: 0.5em;
+       margin-top: -2vh;
+    }
+
+    .HeaderTable {
+        font-size: 1.6em;
+        height: 8vh;
+    }
+
+    .ContentTable {
         width: 100%;
         overflow-y: scroll;
     }
+
     .HeaderTable {
-    font-size: 12px;
-    }
-    .ContentTable {
         width: 100%;
     }
-    .HeaderTable {
-    width: 100%;
-    }
-    .slider{
+
+    .slider {
         width: 30vw;
         margin-right: 10vw;
         margin-left: 10vw;
     }
-    .desktopPanel{
+
+    .desktopPanel {
         display: none;
     }
-    .mobilePanel{
+
+    .mobilePanel {
         text-align: center;
         width: 90vw;
         height: 120px;
@@ -105,28 +122,34 @@
         align-items: center;
         justify-content: center;
     }
-    .firstBlock{
+
+    .firstBlock {
         display: flex;
         flex-direction: row;
     }
-    .secondBlock{
+
+    .secondBlock {
         margin-top: 15px;
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
     }
-    .secondBlock input{
+
+    .secondBlock input {
         margin: 0px;
         margin-right: -25px;
     }
-    .mobilePanel input{
+
+    .mobilePanel input {
         width: 18vw;
     }
 }
-@media (max-width: 992px){
-    .Container{
+
+@media (max-width: 992px) {
+    .Container {
         max-width: 750px
     }
 }
-@media (max-width: 760px){
+
+@media (max-width: 760px) {
 }

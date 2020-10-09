@@ -9,7 +9,6 @@
 .CardsGrade {
     width: 15vw;
     height: 40vh;
-
 }
 
 .Content {
@@ -30,6 +29,7 @@
     align-items: center;
     align-content: space-evenly;
     height: 100%;
+    text-align: center;
 }
 .controlButton{
     display: flex;
@@ -44,5 +44,44 @@
     height: 100px;
     width:100px;
 }
-.starsGo{
+@media (max-width: 1200px){
+    .Content{
+        height: 90vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        margin-top: 0;
+    }
+    .CardsQuestion {
+
+        width: 70vw;
+        height: 60vh;
+        border-radius: 10%;
+        border:1px solid gray;
+        font-size: 10px;
+    }
+    .buttonNext button{
+        margin-top: 0;
+        outline: none;
+        border-radius: 20%;
+        height: 5vh;
+        width:40vw;
+    }
+    .controlButton{
+        text-align: center;
+        margin-top: 7vh;
+        flex-direction: column;
+        width: 50vw;
+        height: 20vh;
+    }
+    .CardsGrade {
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        width:90vw;
+        height: 20vh;
+    }
+    .CardPack{
+        margin-bottom: 5vh;
+    }
 }

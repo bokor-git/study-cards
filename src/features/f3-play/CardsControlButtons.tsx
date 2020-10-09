@@ -9,7 +9,7 @@ type CardsControlButtonsPropsType = {
 }
 
 export function CardsControlButtons(props: CardsControlButtonsPropsType) {
-    const [value, setValue] = useState<number>(1)
+    const [value, setValue] = useState<1|2|3|4|5>(1)
     const dispatch = useDispatch()
 
     const nextCard = () => {
@@ -22,7 +22,9 @@ export function CardsControlButtons(props: CardsControlButtonsPropsType) {
                 <button onClick={nextCard}>Next Card</button>
             </div>
             Choose how well you answered the question
-            <div className={style.starsGo}><StarChange value={value} setValue={setValue}/></div>
+            <div className={style.starsGo}>
+                <StarChange value={value} setValue={setValue}/>
+            </div>
         </div>
     )
 }

@@ -25,7 +25,7 @@ function App() {
                 <Route exact path="/password-reset" render={() => (<PasswordResetPage/>)}/>}
                 <Route exact path="/password-generation/:id" render={() => (<PasswordGenerationPage/>)}/>
                 <Route exact path="/password-generation" render={() => (<h1>We send to your mail link for password change. Use it!</h1>)}/>
-                <Route exact path="/login" render={() => (<LoginPage/>)}/>
+                <Route exact path={["/login","/"]} render={() => (<LoginPage/>)}/>
                 <Route path="/" render={() => (<Content/>)}/>
             </Switch>: <Preloader/>}
 

@@ -37,11 +37,15 @@ function Play() {
         else {return 1}
     }
     const currentCardForDraw = (rollGrade:() => 1|2|3|4|5, data: Array<CardType>):CardType => {
+        const FilterArray = data.map((card)=> {
+            if (card.grade === 0 ) card.grade = 1
+            return card
+        })
         let cards:Array<any> = []
         while (cards.length < 1)
         {
             let grade  = rollGrade()
-            cards = data.filter((card) => {
+            cards = FilterArray.filter((card) => {
                 if (Math.round(card.grade) === grade) return card
             })
 
